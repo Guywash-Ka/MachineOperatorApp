@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Generated APK Debug
+name: Release branch
 
 env:
   # The name of the main module repository
