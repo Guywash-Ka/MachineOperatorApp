@@ -96,6 +96,16 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
 
+    // CameraX
+    val cameraXVersion = "1.3.0"
+    implementation("androidx.camera:camera-camera2:$cameraXVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraXVersion")
+    implementation("androidx.camera:camera-view:1.4.0-alpha02")
+
+    // Zxing
+    val zxingVersion = "3.4.1"
+    implementation("com.google.zxing:core:$zxingVersion")
+
     // Test
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
