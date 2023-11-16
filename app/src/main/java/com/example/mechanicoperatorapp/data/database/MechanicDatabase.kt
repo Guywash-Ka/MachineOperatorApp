@@ -6,6 +6,6 @@ import androidx.room.RoomDatabase
 
 // TODO: initialize in application
 @Database(entities = [], version = 1)
-abstract class BankDatabase: RoomDatabase() {
-
+abstract class MechanicDatabase: RoomDatabase() {
+    abstract fun baseDao(): BaseDao
 }

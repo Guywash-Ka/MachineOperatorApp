@@ -1,9 +1,43 @@
 package com.example.mechanicoperatorapp.data
 
 import android.content.Context
+import androidx.room.Room
+import com.example.mechanicoperatorapp.data.database.BaseDao
+import com.example.mechanicoperatorapp.data.database.MechanicDatabase
+import kotlinx.coroutines.flow.Flow
+
+private const val DATABASE_NAME = "Mechanic_db"
 
 class AppRepository private constructor(
-    private val context: Context
+    context: Context
 ) : RepositoryInterface {
 
+    private val database: MechanicDatabase = Room
+        .databaseBuilder(
+            context.applicationContext,
+            MechanicDatabase::class.java,
+            DATABASE_NAME
+        ).build()
+
+    fun getData(): Flow<List<Int>> {
+        return database.baseDao().get()
+    }
+
+    suspend fun addData() {
+        database.baseDao().add(19)
+    }
+
+    companion object {
+        private var INSTANCE: AppRepository? = null
+
+        fun initialize(context: Context) {
+            if (INSTANCE == null) {
+                INSTANCE = AppRepository(context)
+            }
+        }
+
+        fun get(): AppRepository {
+            return INSTANCE ?: throw IllegalStateException("Repository must be initialized")
+        }
+    }
 }
