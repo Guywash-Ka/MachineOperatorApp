@@ -2,7 +2,7 @@ package com.example.mechanicoperatorapp.data
 
 import android.content.Context
 import androidx.room.Room
-import com.example.mechanicoperatorapp.data.database.BaseDao
+import com.example.mechanicoperatorapp.data.dataClasses.Base
 import com.example.mechanicoperatorapp.data.database.MechanicDatabase
 import kotlinx.coroutines.flow.Flow
 
@@ -19,12 +19,12 @@ class AppRepository private constructor(
             DATABASE_NAME
         ).build()
 
-    fun getData(): Flow<List<Int>> {
+    fun getData(): Flow<List<Base>> {
         return database.baseDao().get()
     }
 
     suspend fun addData() {
-        database.baseDao().add(19)
+        database.baseDao().add(Base(17))
     }
 
     companion object {

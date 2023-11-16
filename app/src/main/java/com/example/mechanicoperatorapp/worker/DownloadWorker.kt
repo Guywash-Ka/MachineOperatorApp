@@ -12,7 +12,7 @@ class DownloadWorker(context: Context, params: WorkerParameters) : Worker(contex
 
     override fun doWork(): Result {
         try {
-            AppRepository.get()
+            AppRepository.get().getData()
         } catch (e: Exception) {
             return Result.failure()
         }
