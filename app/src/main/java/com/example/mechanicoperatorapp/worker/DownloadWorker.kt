@@ -13,7 +13,6 @@ class DownloadWorker(context: Context, params: WorkerParameters) : Worker(contex
 
     override fun doWork(): Result {
         try {
-            AppRepository.get().getData()
             val notification = NotificationCompat.Builder(applicationContext, "default")
                 .setContentTitle("Новые данные загружены")
                 .setContentText("Возможно Вы получили новые задания, скорее проверьте!")
