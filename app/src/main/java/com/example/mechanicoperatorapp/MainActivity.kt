@@ -165,13 +165,13 @@ class MainActivity : ComponentActivity() {
     override fun onPause() {
         super.onPause()
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-        nfcAdapter.disableForegroundDispatch(this)
+        nfcAdapter?.disableForegroundDispatch(this)
     }
 
     override fun onResume() {
         super.onResume()
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-        nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, null, null)
+        nfcAdapter?.enableForegroundDispatch(this, nfcPendingIntent, null, null)
     }
 
 }
