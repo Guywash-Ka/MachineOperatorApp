@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import com.example.mechanicoperatorapp.data.dataClasses.RoleAndId
 import com.example.mechanicoperatorapp.data.dataClasses.WorkerEntity
 import com.example.mechanicoperatorapp.data.database.MechanicDatabase
 import com.example.mechanicoperatorapp.network.RetrofitInstance.API
@@ -42,8 +43,19 @@ class AppRepository private constructor(
         runBlocking  { context.dataStore.edit { it[roleKey] = role } }
     }
 
-    suspend fun getProfileByNfc(nfc: String) =
-        run { Gson().fromJson(API.getWorkerByNfc(nfc).body().toString(), WorkerEntity::class.java) }
+    suspend fun getProfileByNfc(nfc: String): RoleAndId {
+        return try {
+            val res = Gson().fromJson(
+                API.getWorkerByNfc(nfc).body().toString(),
+                RoleAndId::class.java
+            )
+            setRole(res.role)
+            setId(res.id)
+            res
+        } catch (e: Exception) {
+            RoleAndId("", -1)
+        }
+    }
 
     companion object {
         private var INSTANCE: AppRepository? = null
