@@ -8,6 +8,7 @@ import com.example.mechanicoperatorapp.data.dataClasses.Base
 import com.example.mechanicoperatorapp.data.database.MechanicDatabase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
 val Context.dataStore by preferencesDataStore(name = "settings")
 private const val DATABASE_NAME = "Mechanic_db"
@@ -28,7 +29,7 @@ class AppRepository private constructor(
     }
 
     suspend fun setId(id: Int) {
-        context.dataStore.edit{ it[idKey] = id }
+        runBlocking { context.dataStore.edit{ it[idKey] = id } }
     }
 
     fun getRole() = context.dataStore.data.map { preferences ->
@@ -36,7 +37,7 @@ class AppRepository private constructor(
     }
 
     suspend fun setRole(role: String) {
-        context.dataStore.edit { it[roleKey] = role }
+        runBlocking  { context.dataStore.edit { it[roleKey] = role } }
     }
 
     fun getData(): Flow<List<Base>> {
