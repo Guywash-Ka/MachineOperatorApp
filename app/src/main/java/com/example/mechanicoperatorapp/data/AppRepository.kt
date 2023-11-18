@@ -10,9 +10,11 @@ import com.example.mechanicoperatorapp.data.dataClasses.WorkerEntity
 import com.example.mechanicoperatorapp.data.database.MechanicDatabase
 import com.example.mechanicoperatorapp.network.RetrofitInstance.API
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import retrofit2.HttpException
 
 val Context.dataStore by preferencesDataStore(name = "settings")
 private const val DATABASE_NAME = "Mechanic_db"
@@ -44,17 +46,37 @@ class AppRepository private constructor(
         runBlocking  { context.dataStore.edit { it[roleKey] = role } }
     }
 
-    suspend fun getProfileByNfc(nfc: String): RoleAndId {
+    suspend fun getProfileByNfc(nfcRaw: String): RoleAndId {
+        val gson = GsonBuilder().create()
+        val nfc = nfcRaw.lowercase()
+        val response = API.getUserByNfc(nfc)
         return try {
-            val res = Gson().fromJson(
-                API.getWorkerByNfc(nfc).body()?.string(),
+            val res = gson.fromJson(
+                response.body()?.string(),
                 RoleAndId::class.java
             )
             setRole(res.role)
             setId(res.id)
             res
         } catch (e: Exception) {
-            Log.e("REPO", "$e")
+            Log.e("REPO", "${response.code()}")
+            RoleAndId("", -1)
+        }
+    }
+
+    suspend fun getProfileByPassword(password: String): RoleAndId {
+        val gson = GsonBuilder().create()
+        val response = API.getUserByPassword(password)
+        return try {
+            val res = gson.fromJson(
+                response.body()?.string(),
+                RoleAndId::class.java
+            )
+            setRole(res.role)
+            setId(res.id)
+            res
+        } catch (e: Exception) {
+            Log.e("REPO", "${response.code()}")
             RoleAndId("", -1)
         }
     }

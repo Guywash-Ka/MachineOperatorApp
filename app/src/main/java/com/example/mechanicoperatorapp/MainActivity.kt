@@ -89,25 +89,16 @@ class MainActivity : ComponentActivity() {
         val repo = AppRepository.get()
 
         setContent {
-
             val mainState by mainStateFlow.collectAsStateWithLifecycle()
-
-
             when {
                 mainState.showSplash -> {
-
                 }
-
                 !mainState.isLoggedIn -> {
-
                     Column() {
                         Text("LOGIN SCREEN")
-
                         if (mainState.nfcSerialNumber != null) {
                             LaunchedEffect(null) {
-
                                 val worker = repo.getProfileByNfc(mainState.nfcSerialNumber!!)
-
                                 if (worker.id != -1) {
                                     mainStateFlow.value = MainActivityState(false, true, null, worker)
                                 }
@@ -115,28 +106,16 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
-
                 }
-
                 else -> {
-
                     Column {
                         Text("INSIDE APPLICATION")
                         // mainState.worker is not null here
-
-
                         Text("Role: ${mainState.worker!!.role}")
                         Text("ID: ${mainState.worker!!.id}")
-
                     }
-
-
                 }
             }
-
-
-
-
 //            MechanicOperatorAppTheme {
 //                // A surface container using the 'background' color from the theme
 //                Surface(
