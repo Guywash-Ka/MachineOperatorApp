@@ -27,5 +27,13 @@ data class Tasks(
     val agronomId: Int,
     val workerId: Int,
     val templateId: Int,
-    val json: String
+    val json: List<Int>
+)
+
+data class TasksModel(
+    val id: Int,
+    val agronomName: String,
+    val workerName: String,
+    val templateName: String,
+    val valueList: List<String>
 )

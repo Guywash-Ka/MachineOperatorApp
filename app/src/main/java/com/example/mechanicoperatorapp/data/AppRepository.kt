@@ -17,6 +17,7 @@ import com.example.mechanicoperatorapp.data.dataClasses.RoleAndId
 import com.example.mechanicoperatorapp.data.dataClasses.SpeedEntity
 import com.example.mechanicoperatorapp.data.dataClasses.Tasks
 import com.example.mechanicoperatorapp.data.dataClasses.TasksEntity
+import com.example.mechanicoperatorapp.data.dataClasses.TasksModel
 import com.example.mechanicoperatorapp.data.dataClasses.Templates
 import com.example.mechanicoperatorapp.data.dataClasses.TemplatesEntity
 import com.example.mechanicoperatorapp.data.dataClasses.TransportEntity
@@ -28,6 +29,7 @@ import com.example.mechanicoperatorapp.network.RetrofitInstance.API
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -114,13 +116,32 @@ class AppRepository private constructor(
 
     fun getFieldByName(name: String) = database.fieldsDao().getFieldByName(name)
 
+    fun getFieldNameById(id: Int) = database.fieldsDao().getFieldNameById(id)
+
     fun getTemplateById(id: Int) = database.templatesDao().getTemplateById(id)
 
     fun getTemplateByTitle(title: String) = database.templatesDao().getTemplateByTitle(title)
 
-    fun getTaskById(id: Int) = database.tasksDao().getTaskById(id)
+    fun parseRequiredFieldsIntoFieldsList(requiredFields: List<Int>): List<String> {
+        val resList = MutableList(requiredFields.size){""}
+        requiredFields.forEach { getFieldNameById(it).map { res -> resList[0] = res } }
+        return resList
+    }
+
+    fun getTaskById(id: Int): Flow<TasksModel> {
+        return combine(
+            database.tasksDao().getTaskById(id),
+            getAgronomNameById(id),
+            getWorkerNameById(id),
+            getTemplateById(id)
+        ) { task, agronomName, workerName, template ->
+            val fieldsList = parseRequiredFieldsIntoFieldsList(template.requiredFields)
+            return@combine TasksModel(id, agronomName, workerName, template.title, fieldsList)
+        }
+    }
 
     fun getAllTasks() = flow {
+        database.tasksDao().getAllTasks()
         emit(database.tasksDao().getAllTasks())
         if (isOnline(context)) {
             emit(API.getTasks())
@@ -165,6 +186,9 @@ class AppRepository private constructor(
     fun getDepths() = database.infoClassesDao().getDepths()
     fun getSpeeds() = database.infoClassesDao().getSpeeds()
     fun getWaters() = database.infoClassesDao().getWaters()
+
+    fun getAgronomNameById(id: Int) = database.agronomDao().getAgronomNameById(id)
+    fun getWorkerNameById(id: Int) = database.workerDao().getWorkerNameById(id)
 
     companion object {
         private var INSTANCE: AppRepository? = null
