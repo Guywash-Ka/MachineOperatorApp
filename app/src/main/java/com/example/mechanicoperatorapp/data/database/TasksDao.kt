@@ -18,4 +18,7 @@ interface TasksDao {
 
     @Query("SELECT * FROM Tasks")
     fun getAllTasks(): Flow<List<Tasks>>
+
+    @Query("SELECT id FROM Tasks")
+    fun getAllIds(): Flow<Int>
 }
