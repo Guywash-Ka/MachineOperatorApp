@@ -97,25 +97,23 @@ class MainActivity : ComponentActivity() {
                     Column() {
                         Text("LOGIN SCREEN")
                         if (mainState.nfcSerialNumber != null) {
+                            Text("NFC = ${mainState.nfcSerialNumber}")
                             LaunchedEffect(null) {
-                                val worker = repo.getProfileByNfc(mainState.nfcSerialNumber!!)
-                                if (worker.id != -1) {
-                                    mainStateFlow.value = MainActivityState(false, true, null, worker)
-                                }
-
+                                delay(1000)
+                                mainStateFlow.value = MainActivityState(false, true, null, Worker(0, 0))
                             }
+                            // SEND NFC FROM HERE
+
+                            // on success clear nfc serial
                         }
                     }
                 }
                 else -> {
-                    Column {
-                        Text("INSIDE APPLICATION")
-                        // mainState.worker is not null here
-                        Text("Role: ${mainState.worker!!.role}")
-                        Text("ID: ${mainState.worker!!.id}")
-                    }
+                    Text("INSIDE APPLICATION")
+                    // mainState.worker is not null here
                 }
             }
+
 //            MechanicOperatorAppTheme {
 //                // A surface container using the 'background' color from the theme
 //                Surface(
