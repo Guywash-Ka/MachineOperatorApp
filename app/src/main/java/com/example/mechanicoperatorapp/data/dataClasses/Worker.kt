@@ -10,3 +10,31 @@ data class WorkerEntity(
     val password: String,
     val nfc: String
 )
+
+data class WorkerNetwork(
+    val id: Int,
+    val name: String,
+    val password: String,
+    val nfc: String
+)
+
+data class Worker(
+    val id: Int,
+    val name: String,
+    val password: String,
+    val nfc: String
+)
+
+fun WorkerNetwork.asEntity() = AgronomEntity(
+    id = id,
+    name = name,
+    password = password,
+    nfc = nfc
+)
+
+fun WorkerEntity.asExternalModel() = Agronom(
+    id = id,
+    name = name,
+    password = password,
+    nfc = nfc
+)
