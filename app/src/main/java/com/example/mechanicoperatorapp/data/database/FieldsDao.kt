@@ -20,7 +20,7 @@ interface FieldsDao {
     fun getFieldByName(name: String): Flow<Fields>
 
     @Query("SELECT * FROM Fields")
-    fun getAllFields(): Flow<List<Fields>>
+    fun getAllFields(): List<Fields>
 
     @Query("SELECT name FROM Fields WHERE id=:id")
     fun getFieldNameById(id: Int): Flow<String>
