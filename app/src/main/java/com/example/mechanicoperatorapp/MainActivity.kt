@@ -55,6 +55,7 @@ import com.example.mechanicoperatorapp.data.AppRepository
 import com.example.mechanicoperatorapp.data.dataClasses.RoleAndId
 import com.example.mechanicoperatorapp.data.dataClasses.WorkerEntity
 import com.example.mechanicoperatorapp.ui.theme.MechanicOperatorAppTheme
+import com.example.mechanicoperatorapp.ui.theme.screens.newtask.AddTaskScreen
 import com.example.mechanicoperatorapp.worker.DownloadWorker
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -275,7 +276,7 @@ class MainActivity : ComponentActivity() {
                                     composable(Screen.Messages.route) { Text("MESSAGES SCREEN") }
                                     composable(Screen.Tasks.route) { Text("TASKS SCREEN") }
                                     composable(Screen.Profile.route) { Text("PROFILE SCREEN") }
-                                    composable(Screen.AddTask.route) { Text("ADD TASK SCREEN") }
+                                    composable(Screen.AddTask.route) { AddTaskScreen() }
                                 }
 
                             }
