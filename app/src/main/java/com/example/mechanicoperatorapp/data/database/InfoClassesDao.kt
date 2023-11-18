@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.mechanicoperatorapp.data.dataClasses.Agregat
 import com.example.mechanicoperatorapp.data.dataClasses.AgregatEntity
 import com.example.mechanicoperatorapp.data.dataClasses.DepthEntity
@@ -42,26 +43,51 @@ interface InfoClassesDao {
     suspend fun addWater(water: WaterEntity)
 
     @Query("SELECT * FROM Operation")
-    fun getOperations(): List<OperationEntity>
+    suspend fun getOperations(): List<OperationEntity>
 
     @Query("SELECT * FROM Water")
-    fun getWaters(): List<WaterEntity>
+    suspend fun getWaters(): List<WaterEntity>
 
     @Query("SELECT * FROM FarmField")
-    fun getFarmFields(): List<FarmFieldEntity>
+    suspend fun getFarmFields(): List<FarmFieldEntity>
 
     @Query("SELECT * FROM WorkMan")
-    fun getWorkMans(): List<WorkManEntity>
+    suspend fun getWorkMans(): List<WorkManEntity>
 
     @Query("SELECT * FROM Transport")
-    fun getTransports(): List<TransportEntity>
+    suspend fun getTransports(): List<TransportEntity>
 
     @Query("SELECT * FROM Agregat")
-    fun getAgregats(): List<AgregatEntity>
+    suspend fun getAgregats(): List<AgregatEntity>
 
     @Query("SELECT * FROM Depth")
-    fun getDepths(): List<DepthEntity>
+    suspend fun getDepths(): List<DepthEntity>
 
     @Query("SELECT * FROM Speed")
-    fun getSpeeds(): List<SpeedEntity>
+    suspend fun getSpeeds(): List<SpeedEntity>
+
+    @Update
+    suspend fun updateOperations(operation: OperationEntity)
+
+    @Update
+    suspend fun updateWaters(water: WaterEntity)
+
+    @Update
+    suspend fun updateFarmFields(farmField: FarmFieldEntity)
+
+    @Update
+    suspend fun updateWorkMans(workMan: WorkManEntity)
+
+    @Update
+    suspend fun updateTransports(transport: TransportEntity)
+
+    @Update
+    suspend fun updateAgregats(agregat: AgregatEntity)
+
+    @Update
+    suspend fun updateDepths(depth: DepthEntity)
+
+    @Update
+    suspend fun updateSpeeds(speed: SpeedEntity)
+
 }

@@ -135,10 +135,10 @@ class MainActivity : ComponentActivity() {
         )
 
         val repo = AppRepository.get()
-//        loadData(repo)
-//        loadFields(repo)
-//        loadTemplates(repo)
-//        loadTasks(repo)
+        loadData(repo)
+        loadFields(repo)
+        loadTemplates(repo)
+        loadTasks(repo)
         loadAgronom(repo)
         loadWorker(repo)
 
