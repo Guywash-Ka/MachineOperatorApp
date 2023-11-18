@@ -46,7 +46,7 @@ class AppRepository private constructor(
     suspend fun getProfileByNfc(nfc: String): RoleAndId {
         return try {
             val res = Gson().fromJson(
-                API.getWorkerByNfc(nfc).body().toString(),
+                API.getUserByNfc(nfc).body().toString(),
                 RoleAndId::class.java
             )
             setRole(res.role)

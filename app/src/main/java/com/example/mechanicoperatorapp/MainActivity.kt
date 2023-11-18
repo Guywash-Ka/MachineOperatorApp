@@ -85,47 +85,30 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-
             val mainState by mainStateFlow.collectAsStateWithLifecycle()
-
-
             when {
                 mainState.showSplash -> {
-
                 }
-
                 !mainState.isLoggedIn -> {
-
                     Column() {
                         Text("LOGIN SCREEN")
-
                         if (mainState.nfcSerialNumber != null) {
-
                             Text("NFC = ${mainState.nfcSerialNumber}")
-
                             LaunchedEffect(null) {
                                 delay(1000)
                                 mainStateFlow.value = MainActivityState(false, true, null, Worker(0, 0))
                             }
-
                             // SEND NFC FROM HERE
 
                             // on success clear nfc serial
-
                         }
                     }
-
                 }
-
                 else -> {
                     Text("INSIDE APPLICATION")
-
                     // mainState.worker is not null here
                 }
             }
-
-
-
 
 //            MechanicOperatorAppTheme {
 //                // A surface container using the 'background' color from the theme

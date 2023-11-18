@@ -7,5 +7,5 @@ import retrofit2.http.Path
 
 interface API {
     @GET("/getByNfc/{nfc}")
-    suspend fun getWorkerByNfc(@Path("nfc") nfc: String): Response<ResponseBody>
+    suspend fun getUserByNfc(@Path("nfc") nfc: String): Response<ResponseBody>
 }
