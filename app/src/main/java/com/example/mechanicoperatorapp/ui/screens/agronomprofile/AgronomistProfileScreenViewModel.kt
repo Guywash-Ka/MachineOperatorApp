@@ -1,56 +1,51 @@
-package com.example.mechanicoperatorapp.ui.theme.screens.tasks
+package com.example.mechanicoperatorapp.ui.screens.agronomprofile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.mechanicoperatorapp.data.AppRepository
-import com.example.mechanicoperatorapp.data.dataClasses.WorkManEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
-
-data class TasksScreenUIState(
-    val tasks: List<String> = emptyList(),
-    val filter: Int = 0,
+data class AgronomistProfileScreenUIState(
+    val name: String = "",
 )
 
 data class SelectableUIState(
-    val filter: Int = 0,
+    val expanded: Boolean = true,
 )
 
-class TasksScreenViewModel(
+class AgronomistProfileScreenViewModel(
     private val repository: AppRepository
 ) : ViewModel() {
     private val selectableUIState = MutableStateFlow(
         SelectableUIState()
     )
 
-    val uiState: StateFlow<TasksScreenUIState> = combine(
+    val uiState: StateFlow<AgronomistProfileScreenUIState> = combine(
         selectableUIState,
-        repository.getTaskModelById(1)
-    ) { selectable, tasks ->
+        repository.getWorkMans()
+    ) { selectable, agronomistprofileScreenData ->
 
-
-        TasksScreenUIState(
-            tasks = listOf(tasks.templateName),
-            filter = selectable.filter,
+        AgronomistProfileScreenUIState(
+            name = "agronomistprofileScreenData.name",
         )
 
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = TasksScreenUIState()
+        initialValue = AgronomistProfileScreenUIState()
     )
 
 }
 
-class TasksScreenViewModelFactory(
+class AgronomistProfileScreenViewModelFactory(
     private val repository: AppRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return TasksScreenViewModel(repository) as T
+        return AgronomistProfileScreenViewModel(repository) as T
     }
 }

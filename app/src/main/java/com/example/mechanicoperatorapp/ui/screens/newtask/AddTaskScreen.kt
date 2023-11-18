@@ -1,4 +1,4 @@
-package com.example.mechanicoperatorapp.ui.theme.screens.agronomprofile
+package com.example.mechanicoperatorapp.ui.screens.newtask
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -19,12 +19,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mechanicoperatorapp.data.AppRepository
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgronomistProfileScreen(
-    viewModel: AgronomistProfileScreenViewModel = viewModel(
-        factory = AgronomistProfileScreenViewModelFactory(AppRepository.get())
+fun AddTaskScreen(
+    viewModel: AddTaskScreenViewModel = viewModel(
+        factory = AddTaskScreenViewModelFactory(AppRepository.get())
     )
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -34,10 +33,11 @@ fun AgronomistProfileScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Профиль",
+                        text = "Задачи",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
+
                 }
             )
         }
@@ -52,7 +52,17 @@ fun AgronomistProfileScreen(
                 )
                 .fillMaxWidth()
         ) {
-            Text(uiState.toString())
+
+            Text("Список рабочих", fontWeight = FontWeight.Medium)
+            uiState.workers.forEach {
+                Text("ID = ${it.id}; Name = ${it.name}")
+            }
+
+
+
+
+
         }
+
     }
 }

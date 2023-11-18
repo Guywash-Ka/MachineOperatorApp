@@ -1,4 +1,4 @@
-package com.example.mechanicoperatorapp.ui.theme.screens.tasks
+package com.example.mechanicoperatorapp.ui.screens.agronomistmessages
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -22,9 +22,11 @@ import com.example.mechanicoperatorapp.data.AppRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TasksScreen(
-    viewModel: TasksScreenViewModel = viewModel(
-        factory = TasksScreenViewModelFactory(AppRepository.get())
+fun AgronomistMessagesScreen(
+    viewModel: AgronomistMessagesScreenViewModel = viewModel(
+        factory = AgronomistMessagesScreenViewModelFactory(
+            AppRepository.get()
+        )
     )
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -34,7 +36,7 @@ fun TasksScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Задачи",
+                        text = "Сообщения",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -56,3 +58,4 @@ fun TasksScreen(
         }
     }
 }
+

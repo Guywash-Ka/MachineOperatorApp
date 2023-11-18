@@ -1,51 +1,52 @@
-package com.example.mechanicoperatorapp.ui.theme.screens.agronomistmessages
+package com.example.mechanicoperatorapp.ui.screens.newtask
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.mechanicoperatorapp.data.AppRepository
+import com.example.mechanicoperatorapp.data.dataClasses.WorkManEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
-data class AgronomistMessagesScreenUIState(
-    val messages: List<String> = emptyList(),
+data class AddTaskScreenUIState(
+    val workers: List<WorkManEntity> = emptyList(),
 )
 
 data class SelectableUIState(
     val filter: Int = 0,
 )
 
-class AgronomistMessagesScreenViewModel(
+class AddTaskScreenViewModel(
     private val repository: AppRepository
 ) : ViewModel() {
     private val selectableUIState = MutableStateFlow(
         SelectableUIState()
     )
 
-    val uiState: StateFlow<AgronomistMessagesScreenUIState> = combine(
+    val uiState: StateFlow<AddTaskScreenUIState> = combine(
         selectableUIState,
-        repository.getWaters()
-    ) { selectable, agronomistmessagesScreenData ->
+        repository.getWorkMans()
+    ) { selectable, workers ->
 
-        AgronomistMessagesScreenUIState(
-            messages = emptyList(),
+        AddTaskScreenUIState(
+            workers = workers,
         )
 
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = AgronomistMessagesScreenUIState()
+        initialValue = AddTaskScreenUIState()
     )
 
 }
 
-class AgronomistMessagesScreenViewModelFactory(
+class AddTaskScreenViewModelFactory(
     private val repository: AppRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return AgronomistMessagesScreenViewModel(repository) as T
+        return AddTaskScreenViewModel(repository) as T
     }
 }

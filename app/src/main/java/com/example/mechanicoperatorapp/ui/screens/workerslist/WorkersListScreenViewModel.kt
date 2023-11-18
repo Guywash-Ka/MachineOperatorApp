@@ -1,4 +1,4 @@
-package com.example.mechanicoperatorapp.ui.theme.screens.agronomprofile
+package com.example.mechanicoperatorapp.ui.screens.workerslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,42 +10,44 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
-data class AgronomistProfileScreenUIState(
-    val name: String = "",
+data class WorkersListScreenUIState(
+    val workers: List<String> = emptyList(),
+    val filter: Int = 0,
 )
 
 data class SelectableUIState(
-    val expanded: Boolean = true,
+    val filter: Int = 0,
 )
 
-class AgronomistProfileScreenViewModel(
+class WorkersListScreenViewModel(
     private val repository: AppRepository
 ) : ViewModel() {
     private val selectableUIState = MutableStateFlow(
         SelectableUIState()
     )
 
-    val uiState: StateFlow<AgronomistProfileScreenUIState> = combine(
+    val uiState: StateFlow<WorkersListScreenUIState> = combine(
         selectableUIState,
         repository.getWorkMans()
-    ) { selectable, agronomistprofileScreenData ->
+    ) { selectable, workers ->
 
-        AgronomistProfileScreenUIState(
-            name = "agronomistprofileScreenData.name",
+        WorkersListScreenUIState(
+            workers = workers.map { it.name },
+            filter = selectable.filter,
         )
 
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = AgronomistProfileScreenUIState()
+        initialValue = WorkersListScreenUIState()
     )
 
 }
 
-class AgronomistProfileScreenViewModelFactory(
+class WorkersListScreenViewModelFactory(
     private val repository: AppRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return AgronomistProfileScreenViewModel(repository) as T
+        return WorkersListScreenViewModel(repository) as T
     }
 }
