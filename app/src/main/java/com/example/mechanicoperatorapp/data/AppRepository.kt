@@ -5,7 +5,13 @@ import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import com.example.mechanicoperatorapp.data.dataClasses.Fields
+import com.example.mechanicoperatorapp.data.dataClasses.FieldsEntity
 import com.example.mechanicoperatorapp.data.dataClasses.RoleAndId
+import com.example.mechanicoperatorapp.data.dataClasses.Tasks
+import com.example.mechanicoperatorapp.data.dataClasses.TasksEntity
+import com.example.mechanicoperatorapp.data.dataClasses.Templates
+import com.example.mechanicoperatorapp.data.dataClasses.TemplatesEntity
 import com.example.mechanicoperatorapp.data.dataClasses.WorkerEntity
 import com.example.mechanicoperatorapp.data.database.MechanicDatabase
 import com.example.mechanicoperatorapp.network.RetrofitInstance.API
@@ -80,6 +86,28 @@ class AppRepository private constructor(
             RoleAndId("", -1)
         }
     }
+
+    suspend fun addFieldWithName(id: Int = 1, name: String) {
+        database.fieldsDao().addField(FieldsEntity(id, name))
+    }
+
+    suspend fun addTaskWithJson(id: Int = 1, json: String) {
+        database.tasksDao().addTask(TasksEntity(id, json))
+    }
+
+    suspend fun addTemplateWithTitleAndFields(id: Int = 1, title: String, requiredFields: IntArray) {
+        database.templatesDao().addTemplate(TemplatesEntity(id, title, requiredFields.joinToString("_")))
+    }
+
+    fun getFieldById(id: Int) = database.fieldsDao().getFieldById(id)
+
+    fun getFieldByName(name: String) = database.fieldsDao().getFieldByName(name)
+
+    fun getTemplateById(id: Int) = database.templatesDao().getTemplateById(id)
+
+    fun getTemplateByTitle(title: String) = database.templatesDao().getTemplateByTitle(title)
+
+    fun getTaskById(id: Int) = database.tasksDao().getTaskById(id)
 
     companion object {
         private var INSTANCE: AppRepository? = null
