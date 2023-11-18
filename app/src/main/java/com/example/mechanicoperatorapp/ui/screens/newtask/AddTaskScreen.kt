@@ -1,11 +1,19 @@
 package com.example.mechanicoperatorapp.ui.screens.newtask
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.rounded.AddCircle
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -14,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,6 +49,11 @@ fun AddTaskScreen(
 
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /*TODO*/ }) {
+                Icon(Icons.Outlined.Add, null, modifier = Modifier.size(32.dp))
+            }
         }
     ) { pv ->
         Column(
@@ -53,14 +67,7 @@ fun AddTaskScreen(
                 .fillMaxWidth()
         ) {
 
-            Text("Список рабочих", fontWeight = FontWeight.Medium)
-            uiState.workers.forEach {
-                Text("ID = ${it.id}; Name = ${it.name}")
-            }
-
-
-
-
+            
 
         }
 

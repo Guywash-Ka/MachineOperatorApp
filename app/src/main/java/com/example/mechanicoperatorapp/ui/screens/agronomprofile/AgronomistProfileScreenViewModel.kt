@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 data class AgronomistProfileScreenUIState(
@@ -27,11 +29,11 @@ class AgronomistProfileScreenViewModel(
 
     val uiState: StateFlow<AgronomistProfileScreenUIState> = combine(
         selectableUIState,
-        repository.getWorkMans()
-    ) { selectable, agronomistprofileScreenData ->
+        repository.getId().map { repository.getAgronomNameById(it) }
+    ) { selectable, name ->
 
         AgronomistProfileScreenUIState(
-            name = "agronomistprofileScreenData.name",
+            name = "Биньямин Нетаньяху",
         )
 
     }.stateIn(

@@ -30,6 +30,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -52,6 +55,7 @@ import com.example.mechanicoperatorapp.data.dataClasses.RoleAndId
 import com.example.mechanicoperatorapp.ui.screens.LoginScreen
 import com.example.mechanicoperatorapp.ui.theme.MechanicOperatorAppTheme
 import com.example.mechanicoperatorapp.ui.screens.agronomistmessages.AgronomistMessagesScreen
+import com.example.mechanicoperatorapp.ui.screens.agronomprofile.AgronomistProfileScreen
 import com.example.mechanicoperatorapp.ui.screens.newtask.AddTaskScreen
 import com.example.mechanicoperatorapp.ui.screens.tasks.TasksScreen
 import com.example.mechanicoperatorapp.ui.screens.workerslist.WorkersListScreen
@@ -140,6 +144,7 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
 
+            var loginShowTryAgain by remember { mutableStateOf(false) }
 
             MechanicOperatorAppTheme {
                 Surface(
@@ -154,26 +159,20 @@ class MainActivity : ComponentActivity() {
 
                         !mainState.isLoggedIn -> {
 
-                            LoginScreen()
+                            LoginScreen(loginShowTryAgain)
 
+                            if (mainState.nfcSerialNumber != null) {
+                                LaunchedEffect(mainState) {
 
-                            Column {
+                                    Log.e("MainActivity", "NFC = ${mainState.nfcSerialNumber}")
+                                    val worker = repo.getProfileByNfc(mainState.nfcSerialNumber!!)
 
-
-//                                Text("LOGIN SCREEN")
-//
-//                                if (mainState.nfcSerialNumber != null) {
-//                                    LaunchedEffect(mainState) {
-//
-//                                        Log.e("MainActivity", "NFC = ${mainState.nfcSerialNumber}")
-//                                        val worker = repo.getProfileByNfc(mainState.nfcSerialNumber!!)
-//
-//                                        if (worker.id != -1) {
-//                                            mainStateFlow.value = MainActivityState(false, true, null, worker)
-//                                        }
-//
-//                                    }
-//                                }
+                                    if (worker.id != -1) {
+                                        mainStateFlow.value = MainActivityState(false, true, null, worker)
+                                    } else {
+                                        loginShowTryAgain = true
+                                    }
+                                }
                             }
 
                         }
@@ -201,10 +200,10 @@ class MainActivity : ComponentActivity() {
                                                 Screen.WorkerProfile
                                             )
                                             "agronom" -> listOf(
+                                                Screen.WorkersList,
                                                 Screen.AddTask,
                                                 Screen.AgronomistMessages,
                                                 Screen.AgronomistProfile,
-                                                Screen.WorkersList,
                                             )
                                             else -> emptyList()
                                         }
@@ -284,7 +283,7 @@ class MainActivity : ComponentActivity() {
                                     composable(Screen.WorkerProfile.route) { Text("PROFILE SCREEN") }
                                     composable(Screen.AddTask.route) { AddTaskScreen() }
                                     composable(Screen.AgronomistMessages.route) { AgronomistMessagesScreen() }
-                                    composable(Screen.AgronomistProfile.route) { AgronomistMessagesScreen() }
+                                    composable(Screen.AgronomistProfile.route) { AgronomistProfileScreen() }
                                     composable(Screen.WorkersList.route) { WorkersListScreen() }
                                 }
 

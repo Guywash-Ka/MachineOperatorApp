@@ -31,6 +31,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -130,14 +131,15 @@ class AppRepository private constructor(
     }
 
     fun getTaskModelById(id: Int): Flow<TasksModel> {
-        return combine(
-            database.tasksDao().getTaskById(id),
-            getAgronomNameById(id),
-            getWorkerNameById(id),
-            getTemplateById(id)
-        ) { task, agronomName, workerName, template ->
-            val fieldsList = parseRequiredFieldsIntoFieldsList(template.requiredFields)
-            return@combine TasksModel(id, agronomName, workerName, template.title, fieldsList)
+        return database.tasksDao().getTaskById(id).map { task ->
+            return@map combine(
+                getAgronomNameById(task.agronomId),
+                getWorkerNameById(task.workerId),
+                getTemplateById(task.templateId)
+            ) { agroName, workName, template ->
+                val fieldsList = parseRequiredFieldsIntoFieldsList(template.requiredFields)
+                return@combine TasksModel(id, agroName, workName, template.title, fieldsList)
+            }.first()
         }
     }
 
