@@ -14,10 +14,10 @@ interface FieldsDao {
     suspend fun addField(field: FieldsEntity)
 
     @Query("SELECT * FROM Fields WHERE id=:id")
-    fun getFieldById(id: Int): Fields
+    fun getFieldById(id: Int): Flow<Fields>
 
     @Query("SELECT * FROM Fields WHERE name=:name")
-    fun getFieldByName(name: String): Fields
+    fun getFieldByName(name: String): Flow<Fields>
 
     @Query("SELECT * FROM Fields")
     fun getAllFields(): Flow<List<Fields>>

@@ -14,10 +14,10 @@ interface TemplatesDao {
     suspend fun addTemplate(template: TemplatesEntity)
 
     @Query("SELECT * FROM Templates WHERE id=:id")
-    fun getTemplateById(id: Int): Templates
+    fun getTemplateById(id: Int): Flow<Templates>
 
     @Query("SELECT * FROM Templates WHERE title=:title")
-    fun getTemplateByTitle(title: String): Templates
+    fun getTemplateByTitle(title: String): Flow<Templates>
 
     @Query("SELECT * FROM Templates")
     fun getAllTemplates(): Flow<List<Templates>>

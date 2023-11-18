@@ -2,6 +2,7 @@ package com.example.mechanicoperatorapp.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.mechanicoperatorapp.data.dataClasses.Agregat
 import com.example.mechanicoperatorapp.data.dataClasses.AgregatEntity
 import com.example.mechanicoperatorapp.data.dataClasses.AgronomEntity
@@ -14,6 +15,7 @@ import com.example.mechanicoperatorapp.data.dataClasses.SpeedEntity
 import com.example.mechanicoperatorapp.data.dataClasses.TasksEntity
 import com.example.mechanicoperatorapp.data.dataClasses.TemplatesEntity
 import com.example.mechanicoperatorapp.data.dataClasses.TransportEntity
+import com.example.mechanicoperatorapp.data.dataClasses.TypeConverter
 import com.example.mechanicoperatorapp.data.dataClasses.Water
 import com.example.mechanicoperatorapp.data.dataClasses.WaterEntity
 import com.example.mechanicoperatorapp.data.dataClasses.WorkMan
@@ -27,6 +29,7 @@ import com.example.mechanicoperatorapp.data.dataClasses.WorkerEntity
                      AgregatEntity::class, DepthEntity::class, SpeedEntity::class,
                      WaterEntity::class],
     version = 1)
+@TypeConverters(TypeConverter::class)
 abstract class MechanicDatabase: RoomDatabase() {
     abstract fun loginDao(): LoginDao
     abstract fun fieldsDao(): FieldsDao
