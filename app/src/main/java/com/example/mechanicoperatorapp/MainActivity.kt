@@ -77,12 +77,20 @@ sealed class Screen(val route: String, @StringRes val name: Int) {
     object AddTask : Screen("add-task", R.string.add_task_screen)
 }
 
+//private data class MainActivityState(
+//    val showSplash: Boolean = false,
+//    val isLoggedIn: Boolean = false,
+//    val nfcSerialNumber: String? = null,
+//    val worker: RoleAndId? = null,
+//)
+
 private data class MainActivityState(
     val showSplash: Boolean = false,
-    val isLoggedIn: Boolean = false,
+    val isLoggedIn: Boolean = true,
     val nfcSerialNumber: String? = null,
-    val worker: RoleAndId? = null,
+    val worker: RoleAndId? = RoleAndId("worker", 1),
 )
+
 
 class MainActivity : ComponentActivity() {
 
@@ -148,8 +156,9 @@ class MainActivity : ComponentActivity() {
                                 Text("LOGIN SCREEN")
 
                                 if (mainState.nfcSerialNumber != null) {
-                                    LaunchedEffect(null) {
+                                    LaunchedEffect(mainState) {
 
+                                        Log.e("MainActivity", "NFC = ${mainState.nfcSerialNumber}")
                                         val worker = repo.getProfileByNfc(mainState.nfcSerialNumber!!)
 
                                         if (worker.id != -1) {
@@ -178,11 +187,18 @@ class MainActivity : ComponentActivity() {
                                         val currentDestination = navBackStackEntry?.destination
 
                                         // TODO: DIVIDE BY TYPES
-                                        val screens = listOf(
-                                            Screen.Messages,
-                                            Screen.Tasks,
-                                            Screen.Profile
-                                        )
+                                        val screens = when (mainState.worker!!.role) {
+                                            "worker" -> listOf(
+                                                Screen.Messages,
+                                                Screen.Tasks,
+                                                Screen.Profile
+                                            )
+                                            "agronom" -> listOf(
+                                                Screen.AddTask
+                                            )
+                                            else -> emptyList()
+                                        }
+
 
                                         screens.forEach { screen ->
 
@@ -250,7 +266,7 @@ class MainActivity : ComponentActivity() {
 
                                 NavHost(
                                     navController,
-                                    startDestination = Screen.Tasks.route,
+                                    startDestination = if (mainState.worker!!.role == "worker") Screen.Tasks.route else Screen.AddTask.route,
                                     Modifier.padding(innerPadding)
                                 ) {
                                     composable(Screen.Messages.route) { Text("MESSAGES SCREEN") }
