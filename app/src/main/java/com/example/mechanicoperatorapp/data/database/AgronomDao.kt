@@ -15,4 +15,7 @@ interface AgronomDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAgronom(agronom: AgronomEntity)
+
+    @Query("SELECT * FROM Agronom")
+    fun getAllAgronoms(): List<AgronomEntity>
 }
