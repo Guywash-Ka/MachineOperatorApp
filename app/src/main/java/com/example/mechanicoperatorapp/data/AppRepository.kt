@@ -205,13 +205,27 @@ class AppRepository private constructor(
 
     suspend fun addWater(id: Int, name: String) = database.infoClassesDao().addWater(WaterEntity(id, name))
 
-    suspend fun addAgronom(id: Int, name: String, password: String, nfc: String) = database.agronomDao().addAgronom(
-        AgronomEntity(id, name, password, nfc)
-    )
+    suspend fun addAgronom(id: Int, name: String, password: String, nfc: String) {
+        database.agronomDao().addAgronom(AgronomEntity(id, name, password, nfc))
+        if (isOnline(context)) {
+            try {
+                API.saveAgronom(name, password, nfc)
+            } catch (e: Exception) {
+                e.message?.let { Log.i("Internet connection", it) }
+            }
+        }
+    }
 
-    suspend fun addWorker(id: Int, name: String, password: String, nfc: String) = database.workerDao().addWorker(
-        WorkerEntity(id, name, password, nfc)
-    )
+    suspend fun addWorker(id: Int, name: String, password: String, nfc: String) {
+        database.workerDao().addWorker(WorkerEntity(id, name, password, nfc))
+        if (isOnline(context)) {
+            try {
+                API.saveWorker(name, password, nfc)
+            } catch (e: Exception) {
+                e.message?.let { Log.i("No internet", it) }
+            }
+        }
+    }
 
     fun getOperations() = flow {
         val localData = database.infoClassesDao().getOperations()
@@ -309,6 +323,10 @@ class AppRepository private constructor(
             val remoteData = Gson().fromJson(API.getAllTaskFields().body()!!.string(), Array<Fields>::class.java).toList()
             emit(remoteData)
         }
+    }
+
+    suspend fun getLastTaskId(): Int {
+        return try { API.getLastTaskId().body()!!.string().toInt() } catch (e: Exception) { -1 }
     }
 
     fun getAgronomNameById(id: Int) = database.agronomDao().getAgronomNameById(id)
