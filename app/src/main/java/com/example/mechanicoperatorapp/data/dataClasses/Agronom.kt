@@ -10,3 +10,31 @@ data class AgronomEntity(
     val password: String,
     val nfc: String
 )
+
+data class AgronomNetwork(
+    val id: Int,
+    val name: String,
+    val password: String,
+    val nfc: String
+)
+
+data class Agronom(
+    val id: Int,
+    val name: String,
+    val password: String,
+    val nfc: String
+)
+
+fun AgronomNetwork.asEntity() = AgronomEntity(
+    id = id,
+    name = name,
+    password = password,
+    nfc = nfc
+)
+
+fun AgronomEntity.asExternalModel() = Agronom(
+    id = id,
+    name = name,
+    password = password,
+    nfc = nfc
+)

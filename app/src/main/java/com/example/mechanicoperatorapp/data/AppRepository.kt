@@ -5,14 +5,24 @@ import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import com.example.mechanicoperatorapp.data.dataClasses.Fields
+import com.example.mechanicoperatorapp.data.dataClasses.FieldsEntity
 import com.example.mechanicoperatorapp.data.dataClasses.RoleAndId
+import com.example.mechanicoperatorapp.data.dataClasses.Tasks
+import com.example.mechanicoperatorapp.data.dataClasses.TasksEntity
+import com.example.mechanicoperatorapp.data.dataClasses.Templates
+import com.example.mechanicoperatorapp.data.dataClasses.TemplatesEntity
 import com.example.mechanicoperatorapp.data.dataClasses.WorkerEntity
 import com.example.mechanicoperatorapp.data.database.MechanicDatabase
 import com.example.mechanicoperatorapp.network.RetrofitInstance.API
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import retrofit2.HttpException
 
 val Context.dataStore by preferencesDataStore(name = "settings")
 private const val DATABASE_NAME = "Mechanic_db"
@@ -44,20 +54,71 @@ class AppRepository private constructor(
         runBlocking  { context.dataStore.edit { it[roleKey] = role } }
     }
 
-    suspend fun getProfileByNfc(nfc: String): RoleAndId {
+    suspend fun getProfileByNfc(nfcRaw: String): RoleAndId {
+        val gson = GsonBuilder().create()
+        val nfc = nfcRaw.lowercase()
+        val response = API.getUserByNfc(nfc)
         return try {
-            val res = Gson().fromJson(
-                API.getWorkerByNfc(nfc).body()?.string(),
+            val res = gson.fromJson(
+                response.body()?.string(),
                 RoleAndId::class.java
             )
             setRole(res.role)
             setId(res.id)
             res
         } catch (e: Exception) {
-            Log.e("REPO", "$e")
+            Log.e("REPO", "${response.code()}")
             RoleAndId("", -1)
         }
     }
+
+    suspend fun getProfileByPassword(password: String): RoleAndId {
+        val gson = GsonBuilder().create()
+        val response = API.getUserByPassword(password)
+        return try {
+            val res = gson.fromJson(
+                response.body()?.string(),
+                RoleAndId::class.java
+            )
+            setRole(res.role)
+            setId(res.id)
+            res
+        } catch (e: Exception) {
+            Log.e("REPO", "${response.code()}")
+            RoleAndId("", -1)
+        }
+    }
+
+    suspend fun addFieldWithName(id: Int = 1, name: String) {
+        database.fieldsDao().addField(FieldsEntity(id, name))
+    }
+
+    suspend fun addTaskWithJson(id: Int = 1, json: String) {
+        database.tasksDao().addTask(TasksEntity(id, json))
+    }
+
+    suspend fun addTemplateWithTitleAndFields(id: Int = 1, title: String, requiredFields: IntArray) {
+        database.templatesDao().addTemplate(TemplatesEntity(id, title, requiredFields.joinToString("_")))
+    }
+
+    fun getFieldById(id: Int) = database.fieldsDao().getFieldById(id)
+
+    fun getFieldByName(name: String) = database.fieldsDao().getFieldByName(name)
+
+    fun getTemplateById(id: Int) = database.templatesDao().getTemplateById(id)
+
+    fun getTemplateByTitle(title: String) = database.templatesDao().getTemplateByTitle(title)
+
+    fun getTaskById(id: Int) = database.tasksDao().getTaskById(id)
+
+    fun getAllTasks() = flow {
+        emit(database.tasksDao().getAllTasks())
+        emit(API.getTasks())
+    }
+
+    fun getAllTemplates() = database.templatesDao().getAllTemplates()
+
+    fun getAllFields() = database.fieldsDao().getAllFields()
 
     companion object {
         private var INSTANCE: AppRepository? = null
