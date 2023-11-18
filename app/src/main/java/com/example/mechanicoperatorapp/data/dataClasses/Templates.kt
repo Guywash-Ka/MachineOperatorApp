@@ -2,12 +2,14 @@ package com.example.mechanicoperatorapp.data.dataClasses
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 
 @Entity(tableName = "Templates")
+@TypeConverters(TypeConverter::class)
 data class TemplatesEntity (
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
-    val requiredFields: String,
+    val requiredFields: List<Int>,
 )
 
 data class TemplatesNetwork(
