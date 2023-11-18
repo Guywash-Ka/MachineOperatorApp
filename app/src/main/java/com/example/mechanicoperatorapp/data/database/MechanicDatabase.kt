@@ -36,4 +36,6 @@ abstract class MechanicDatabase: RoomDatabase() {
     abstract fun tasksDao(): TasksDao
     abstract fun templatesDao(): TemplatesDao
     abstract fun infoClassesDao(): InfoClassesDao
+    abstract fun agronomDao(): AgronomDao
+    abstract fun workerDao(): WorkerDao
 }

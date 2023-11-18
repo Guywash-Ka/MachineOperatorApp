@@ -21,5 +21,5 @@ data class TemplatesNetwork(
 data class Templates(
     val id: Int,
     val title: String,
-    val requiredFields: String,
+    val requiredFields: List<Int>,
 )
