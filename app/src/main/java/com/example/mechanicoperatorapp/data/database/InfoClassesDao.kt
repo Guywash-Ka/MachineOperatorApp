@@ -42,26 +42,26 @@ interface InfoClassesDao {
     suspend fun addWater(water: WaterEntity)
 
     @Query("SELECT * FROM Operation")
-    fun getOperations(): Flow<List<OperationEntity>>
+    fun getOperations(): List<OperationEntity>
 
     @Query("SELECT * FROM Water")
-    fun getWaters(): Flow<List<WaterEntity>>
+    fun getWaters(): List<WaterEntity>
 
     @Query("SELECT * FROM FarmField")
-    fun getFarmFields(): Flow<List<FarmFieldEntity>>
+    fun getFarmFields(): List<FarmFieldEntity>
 
     @Query("SELECT * FROM WorkMan")
-    fun getWorkMans(): Flow<List<WorkManEntity>>
+    fun getWorkMans(): List<WorkManEntity>
 
     @Query("SELECT * FROM Transport")
-    fun getTransports(): Flow<List<TransportEntity>>
+    fun getTransports(): List<TransportEntity>
 
     @Query("SELECT * FROM Agregat")
-    fun getAgregats(): Flow<List<AgregatEntity>>
+    fun getAgregats(): List<AgregatEntity>
 
     @Query("SELECT * FROM Depth")
-    fun getDepths(): Flow<List<DepthEntity>>
+    fun getDepths(): List<DepthEntity>
 
     @Query("SELECT * FROM Speed")
-    fun getSpeeds(): Flow<List<SpeedEntity>>
+    fun getSpeeds(): List<SpeedEntity>
 }

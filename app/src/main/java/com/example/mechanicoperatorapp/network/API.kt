@@ -46,32 +46,32 @@ interface API {
     suspend fun getAllAfterId(@Path("id") id: Int): Response<ResponseBody>
 
     @GET("/getAll/Agronoms")
-    suspend fun getAllAgronoms(@Path("stringId") stringId: String): Response<ResponseBody>
+    suspend fun getAllAgronoms(): Response<ResponseBody>
 
     @GET("/getAll/Agregats")
-    suspend fun getAllAgregats(@Path("stringId") stringId: String): Response<ResponseBody>
+    suspend fun getAllAgregats(): Response<ResponseBody>
 
     @GET("/getAll/FarmFields")
-    suspend fun getAllFarmFields(@Path("stringId") stringId: String): Response<ResponseBody>
+    suspend fun getAllFarmFields(): Response<ResponseBody>
 
     @GET("/getAll/Operations")
-    suspend fun getAllOperations(@Path("stringId") stringId: String): Response<ResponseBody>
+    suspend fun getAllOperations(): Response<ResponseBody>
 
     @GET("/getAll/TaskFields")
-    suspend fun getAllTaskFields(@Path("stringId") stringId: String): Response<ResponseBody>
+    suspend fun getAllTaskFields(): Response<ResponseBody>
 
     @GET("/getAll/Tasks")
-    suspend fun getAllTasks(@Path("stringId") stringId: String): Response<ResponseBody>
+    suspend fun getAllTasks(): Response<ResponseBody>
 
     @GET("/getAll/Templates")
-    suspend fun getAllTemplates(@Path("stringId") stringId: String): Response<ResponseBody>
+    suspend fun getAllTemplates(): Response<ResponseBody>
 
     @GET("/getAll/Transport")
-    suspend fun getAllTransport(@Path("stringId") stringId: String): Response<ResponseBody>
+    suspend fun getAllTransport(): Response<ResponseBody>
 
     @GET("/getAll/Waters")
-    suspend fun getAllWaters(@Path("stringId") stringId: String): Response<ResponseBody>
+    suspend fun getAllWaters(): Response<ResponseBody>
 
     @GET("/getAll/Workers")
-    suspend fun getAllWorkers(@Path("stringId") stringId: String): Response<ResponseBody>
+    suspend fun getAllWorkers(): Response<ResponseBody>
 }

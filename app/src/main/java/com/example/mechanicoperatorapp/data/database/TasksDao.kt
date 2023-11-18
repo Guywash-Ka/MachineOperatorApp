@@ -17,7 +17,7 @@ interface TasksDao {
     fun getTaskById(id: Int): Flow<Tasks>
 
     @Query("SELECT * FROM Tasks")
-    fun getAllTasks(): Flow<List<Tasks>>
+    fun getAllTasks(): List<Tasks>
 
     @Query("SELECT id FROM Tasks")
     fun getAllIds(): Flow<List<Int>>
