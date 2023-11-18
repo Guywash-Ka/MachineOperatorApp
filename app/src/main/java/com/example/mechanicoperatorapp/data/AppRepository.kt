@@ -141,11 +141,20 @@ class AppRepository private constructor(
     }
 
     fun getAllTasks() = flow {
-        database.tasksDao().getAllTasks()
-        emit(database.tasksDao().getAllTasks())
+        emit(database.tasksDao().getAllTasks().map { it.map { t ->  } })
         if (isOnline(context)) {
             emit(API.getTasks())
         }
+    }
+
+    fun getAllTasksModel(): Flow<List<TasksModel>> {
+        val resList = mutableListOf<TasksModel>()
+        database.tasksDao().getAllIds().map { id ->
+            getTaskModelById(id).map { task ->
+                resList.add(task)
+            }
+        }
+        return flowOf(resList)
     }
 
     fun getAllTemplates() = flow {
