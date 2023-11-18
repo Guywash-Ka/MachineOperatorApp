@@ -61,7 +61,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.minutes
@@ -136,6 +138,8 @@ class MainActivity : ComponentActivity() {
         val repo = AppRepository.get()
 //        loadData(repo)
 //        loadFields(repo)
+//        loadTemplates(repo)
+//        loadTasks(repo)
 
         setContent {
 
@@ -412,5 +416,21 @@ fun loadFields(repo: AppRepository) {
         repo.addFieldWithName(6, "Глубина")
         repo.addFieldWithName(7, "Скорость")
         repo.addFieldWithName(8, "Расход раствора")
+    }
+}
+
+fun loadTemplates(repo: AppRepository) {
+    GlobalScope.launch {
+        repo.addTemplateWithTitleAndFields(1, "Полив", listOf(1, 3, 4))
+        repo.addTemplateWithTitleAndFields(2, "Посев", listOf(1, 2, 7))
+        repo.addTemplateWithTitleAndFields(3, "Починка", listOf(3, 4))
+    }
+}
+
+fun loadTasks(repo: AppRepository) {
+    GlobalScope.launch {
+        repo.addTask(1, 2, 1, 1, listOf(1, 3, 2))
+        repo.addTask(2, 1, 2, 3, listOf(2, 2, 2))
+        repo.addTask(3, 2, 1, 3, listOf(3, 3, 3))
     }
 }
