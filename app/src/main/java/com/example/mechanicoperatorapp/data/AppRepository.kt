@@ -1,6 +1,7 @@
 package com.example.mechanicoperatorapp.data
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
@@ -46,13 +47,14 @@ class AppRepository private constructor(
     suspend fun getProfileByNfc(nfc: String): RoleAndId {
         return try {
             val res = Gson().fromJson(
-                API.getWorkerByNfc(nfc).body().toString(),
+                API.getWorkerByNfc(nfc).body()?.string(),
                 RoleAndId::class.java
             )
             setRole(res.role)
             setId(res.id)
             res
         } catch (e: Exception) {
+            Log.e("REPO", "$e")
             RoleAndId("", -1)
         }
     }

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,9 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import com.example.mechanicoperatorapp.data.AppRepository
+import com.example.mechanicoperatorapp.data.dataClasses.RoleAndId
+import com.example.mechanicoperatorapp.data.dataClasses.WorkerEntity
 import com.example.mechanicoperatorapp.ui.theme.MechanicOperatorAppTheme
 import com.example.mechanicoperatorapp.worker.DownloadWorker
 import kotlinx.coroutines.delay
@@ -42,7 +46,7 @@ private data class MainActivityState(
     val showSplash: Boolean = false,
     val isLoggedIn: Boolean = false,
     val nfcSerialNumber: String? = null,
-    val worker: Worker? = null,
+    val worker: RoleAndId? = null,
 )
 
 class MainActivity : ComponentActivity() {
@@ -82,7 +86,7 @@ class MainActivity : ComponentActivity() {
             PendingIntent.FLAG_MUTABLE
         )
 
-
+        val repo = AppRepository.get()
 
         setContent {
 
@@ -100,27 +104,33 @@ class MainActivity : ComponentActivity() {
                         Text("LOGIN SCREEN")
 
                         if (mainState.nfcSerialNumber != null) {
-
-                            Text("NFC = ${mainState.nfcSerialNumber}")
-
                             LaunchedEffect(null) {
-                                delay(1000)
-                                mainStateFlow.value = MainActivityState(false, true, null, Worker(0, 0))
+
+                                val worker = repo.getProfileByNfc(mainState.nfcSerialNumber!!)
+
+                                if (worker.id != -1) {
+                                    mainStateFlow.value = MainActivityState(false, true, null, worker)
+                                }
+
                             }
-
-                            // SEND NFC FROM HERE
-
-                            // on success clear nfc serial
-
                         }
                     }
 
                 }
 
                 else -> {
-                    Text("INSIDE APPLICATION")
 
-                    // mainState.worker is not null here
+                    Column {
+                        Text("INSIDE APPLICATION")
+                        // mainState.worker is not null here
+
+
+                        Text("Role: ${mainState.worker!!.role}")
+                        Text("ID: ${mainState.worker!!.id}")
+
+                    }
+
+
                 }
             }
 
@@ -151,6 +161,7 @@ class MainActivity : ComponentActivity() {
                     Integer
                         .toHexString(it.toInt())
                         .takeLast(2)
+                        .let { if (it.length == 1) "0$it" else it }
                         .uppercase()
                 }
 
