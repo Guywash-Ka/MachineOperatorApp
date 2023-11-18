@@ -1,7 +1,9 @@
 package com.example.mechanicoperatorapp.network
 
+import com.example.mechanicoperatorapp.data.dataClasses.Tasks
 import okhttp3.ResponseBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -19,12 +21,57 @@ interface API {
     @GET("/getRoleAndIdByPassword/{password}")
     suspend fun getUserByPassword(@Path("password") password: String): Response<ResponseBody>
 
-    @GET("/")
-    suspend fun getField(): Response<ResponseBody>
+    @GET("/getTaskFields")
+    suspend fun getFields(): Response<ResponseBody>
 
-    @GET("/")
-    suspend fun getTemplate(): Response<ResponseBody>
+    @GET("/getTaskFields/{id}")
+    suspend fun getFieldById(@Path("id") id: Int): Response<ResponseBody>
 
-    @GET("/")
-    suspend fun getTasks(): Response<ResponseBody>
+    @GET("/getTemplates")
+    suspend fun getTemplates(): Response<ResponseBody>
+
+    @GET("/getTemplates/{id}")
+    suspend fun getTemplateById(@Path("id") id: Int): Response<ResponseBody>
+
+    @POST("/saveTask")
+    suspend fun saveTask(@Body task: Tasks): Response<ResponseBody>
+
+    @GET("/getLastTaskId")
+    suspend fun getLastTaskId(): Response<ResponseBody>
+
+    @GET("/getTaskByTaskId/{id}")
+    suspend fun getTaskById(@Path("id") id: Int): Response<ResponseBody>
+
+    @GET("/getAllAfterId/{id}")
+    suspend fun getAllAfterId(@Path("id") id: Int): Response<ResponseBody>
+
+    @GET("/getAll/Agronoms")
+    suspend fun getAllAgronoms(@Path("stringId") stringId: String): Response<ResponseBody>
+
+    @GET("/getAll/Agregats")
+    suspend fun getAllAgregats(@Path("stringId") stringId: String): Response<ResponseBody>
+
+    @GET("/getAll/FarmFields")
+    suspend fun getAllFarmFields(@Path("stringId") stringId: String): Response<ResponseBody>
+
+    @GET("/getAll/Operations")
+    suspend fun getAllOperations(@Path("stringId") stringId: String): Response<ResponseBody>
+
+    @GET("/getAll/TaskFields")
+    suspend fun getAllTaskFields(@Path("stringId") stringId: String): Response<ResponseBody>
+
+    @GET("/getAll/Tasks")
+    suspend fun getAllTasks(@Path("stringId") stringId: String): Response<ResponseBody>
+
+    @GET("/getAll/Templates")
+    suspend fun getAllTemplates(@Path("stringId") stringId: String): Response<ResponseBody>
+
+    @GET("/getAll/Transport")
+    suspend fun getAllTransport(@Path("stringId") stringId: String): Response<ResponseBody>
+
+    @GET("/getAll/Waters")
+    suspend fun getAllWaters(@Path("stringId") stringId: String): Response<ResponseBody>
+
+    @GET("/getAll/Workers")
+    suspend fun getAllWorkers(@Path("stringId") stringId: String): Response<ResponseBody>
 }

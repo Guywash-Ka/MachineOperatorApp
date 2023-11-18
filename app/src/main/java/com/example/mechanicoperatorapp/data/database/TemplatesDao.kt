@@ -21,4 +21,7 @@ interface TemplatesDao {
 
     @Query("SELECT * FROM Templates")
     fun getAllTemplates(): Flow<List<Templates>>
+
+    @Query("SELECT id FROM Templates")
+    fun getAllIds(): Flow<List<Int>>
 }

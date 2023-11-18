@@ -23,3 +23,9 @@ data class Templates(
     val title: String,
     val requiredFields: List<Int>,
 )
+
+data class TemplatesModel(
+    val id: Int,
+    val title: String,
+    val requiredFields: List<String>
+)
