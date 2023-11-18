@@ -325,6 +325,45 @@ class AppRepository private constructor(
         }
     }
 
+    suspend fun sync() {
+        val gson = Gson()
+        try {
+            gson.fromJson(API.getAllAgronoms().body()!!.string(), Array<AgronomEntity>::class.java).forEach {
+                database.agronomDao().updateAgronom(it)
+            }
+            gson.fromJson(API.getAllTemplates().body()!!.string(), Array<TemplatesEntity>::class.java).forEach {
+                database.templatesDao().updateTemplate(it)
+            }
+            gson.fromJson(API.getAllOperations().body()!!.string(), Array<OperationEntity>::class.java).forEach {
+                database.infoClassesDao().updateOperations(it)
+            }
+
+            gson.fromJson(API.getAllWaters().body()!!.string(), Array<WaterEntity>::class.java).forEach {
+                database.infoClassesDao().updateWaters(it)
+            }
+
+            gson.fromJson(API.getAllFarmFields().body()!!.string(), Array<FarmFieldEntity>::class.java).forEach {
+                database.infoClassesDao().updateFarmFields(it)
+            }
+
+            gson.fromJson(API.getAllWorkers().body()!!.string(), Array<WorkManEntity>::class.java).forEach {
+                database.infoClassesDao().updateWorkMans(it)
+            }
+
+            gson.fromJson(API.getAllTransport().body()!!.string(), Array<TransportEntity>::class.java).forEach {
+                database.infoClassesDao().updateTransports(it)
+            }
+
+            gson.fromJson(API.getAllAgregats().body()!!.string(), Array<AgregatEntity>::class.java).forEach {
+                database.infoClassesDao().updateAgregats(it)
+            }
+// and so on for remaining classes
+
+        } catch (e: Exception) {
+            e.message?.let { Log.i("Exception in sync", it) }
+        }
+    }
+
     suspend fun getLastTaskId(): Int {
         return try { API.getLastTaskId().body()!!.string().toInt() } catch (e: Exception) { -1 }
     }

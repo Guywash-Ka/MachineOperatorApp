@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.mechanicoperatorapp.data.dataClasses.Agregat
 import com.example.mechanicoperatorapp.data.dataClasses.AgregatEntity
 import com.example.mechanicoperatorapp.data.dataClasses.DepthEntity
@@ -64,4 +65,29 @@ interface InfoClassesDao {
 
     @Query("SELECT * FROM Speed")
     fun getSpeeds(): List<SpeedEntity>
+
+    @Update
+    fun updateOperations(operation: OperationEntity)
+
+    @Update
+    fun updateWaters(water: WaterEntity)
+
+    @Update
+    fun updateFarmFields(farmField: FarmFieldEntity)
+
+    @Update
+    fun updateWorkMans(workMan: WorkManEntity)
+
+    @Update
+    fun updateTransports(transport: TransportEntity)
+
+    @Update
+    fun updateAgregats(agregat: AgregatEntity)
+
+    @Update
+    fun updateDepths(depth: DepthEntity)
+
+    @Update
+    fun updateSpeeds(speed: SpeedEntity)
+
 }

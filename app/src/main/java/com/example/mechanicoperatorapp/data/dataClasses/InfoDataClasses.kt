@@ -17,7 +17,7 @@ data class Operation(
 
 @Entity(tableName = "FarmField")
 data class FarmFieldEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
 )
 
@@ -28,7 +28,7 @@ data class FarmField(
 
 @Entity(tableName = "WorkMan")
 data class WorkManEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
 )
 
@@ -39,7 +39,7 @@ data class WorkMan(
 
 @Entity(tableName = "Transport")
 data class TransportEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
 )
 
@@ -50,7 +50,7 @@ data class Transport(
 
 @Entity(tableName = "Agregat")
 data class AgregatEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String
 )
 
@@ -61,7 +61,7 @@ data class Agregat(
 
 @Entity(tableName = "Depth")
 data class DepthEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
 )
 
@@ -72,7 +72,7 @@ data class Depth(
 
 @Entity(tableName = "Speed")
 data class SpeedEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
 )
 
@@ -83,7 +83,7 @@ data class Speed(
 
 @Entity(tableName = "Water")
 data class WaterEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
 )
 

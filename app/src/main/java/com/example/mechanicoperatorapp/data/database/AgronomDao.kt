@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.mechanicoperatorapp.data.dataClasses.Agronom
 import com.example.mechanicoperatorapp.data.dataClasses.AgronomEntity
 import kotlinx.coroutines.flow.Flow
@@ -18,4 +19,7 @@ interface AgronomDao {
 
     @Query("SELECT * FROM Agronom")
     fun getAllAgronoms(): List<AgronomEntity>
+
+    @Update
+    fun updateAgronom(agronom: AgronomEntity)
 }
