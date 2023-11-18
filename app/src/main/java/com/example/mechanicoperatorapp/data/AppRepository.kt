@@ -102,8 +102,8 @@ class AppRepository private constructor(
         database.fieldsDao().addField(FieldsEntity(id, name))
     }
 
-    suspend fun addTaskWithJson(id: Int = 1, json: String) {
-        database.tasksDao().addTask(TasksEntity(id, json))
+    suspend fun addTask(id: Int, agronomId: Int, workerId: Int, templateId: Int, tasks: List<Int>) {
+        database.tasksDao().addTask(TasksEntity(id, agronomId, workerId, templateId, tasks))
     }
 
     suspend fun addTemplateWithTitleAndFields(id: Int = 1, title: String, requiredFields: IntArray) {
