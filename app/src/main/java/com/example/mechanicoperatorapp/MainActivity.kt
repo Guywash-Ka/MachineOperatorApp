@@ -77,19 +77,19 @@ sealed class Screen(val route: String, @StringRes val name: Int) {
     object AddTask : Screen("add-task", R.string.add_task_screen)
 }
 
-//private data class MainActivityState(
-//    val showSplash: Boolean = false,
-//    val isLoggedIn: Boolean = false,
-//    val nfcSerialNumber: String? = null,
-//    val worker: RoleAndId? = null,
-//)
-
 private data class MainActivityState(
     val showSplash: Boolean = false,
-    val isLoggedIn: Boolean = true,
+    val isLoggedIn: Boolean = false,
     val nfcSerialNumber: String? = null,
-    val worker: RoleAndId? = RoleAndId("worker", 1),
+    val worker: RoleAndId? = null,
 )
+
+//private data class MainActivityState(
+//    val showSplash: Boolean = false,
+//    val isLoggedIn: Boolean = true,
+//    val nfcSerialNumber: String? = null,
+//    val worker: RoleAndId? = RoleAndId("worker", 1),
+//)
 
 
 class MainActivity : ComponentActivity() {
