@@ -56,11 +56,13 @@ import com.example.mechanicoperatorapp.data.dataClasses.RoleAndId
 import com.example.mechanicoperatorapp.data.dataClasses.WorkerEntity
 import com.example.mechanicoperatorapp.ui.theme.MechanicOperatorAppTheme
 import com.example.mechanicoperatorapp.worker.DownloadWorker
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.toJavaDuration
 
@@ -131,6 +133,7 @@ class MainActivity : ComponentActivity() {
         )
 
         val repo = AppRepository.get()
+//        loadData(repo)
 
         setContent {
 
@@ -320,4 +323,79 @@ class MainActivity : ComponentActivity() {
         nfcAdapter?.enableForegroundDispatch(this, nfcPendingIntent, null, null)
     }
 
+}
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    MechanicOperatorAppTheme {
+        Greeting("Android")
+    }
+}
+fun loadData(repo: AppRepository) {
+    GlobalScope.launch {
+
+        repo.addOperation(1, "Посев")
+        repo.addOperation(2, "Полив")
+        repo.addOperation(3, "Удобрение")
+        repo.addOperation(4, "Обработка почвы")
+        repo.addOperation(5, "Уборка урожая")
+
+// Add sample entries for FarmFieldEntity
+        repo.addFarmField(1, "Поле 1")
+        repo.addFarmField(2, "Поле 2")
+        repo.addFarmField(3, "Поле 3")
+        repo.addFarmField(4, "Поле 4")
+        repo.addFarmField(5, "Поле 5")
+
+// Add sample entries for WorkManEntity
+        repo.addWorkMan(1, "Иван")
+        repo.addWorkMan(2, "Михаил")
+        repo.addWorkMan(3, "Анатолий")
+        repo.addWorkMan(4, "Ольга")
+        repo.addWorkMan(5, "Евгения")
+
+// Add sample entries for TransportEntity
+        repo.addTransport(1, "Трактор")
+        repo.addTransport(2, "Комбайн")
+        repo.addTransport(3, "Грузовик")
+        repo.addTransport(4, "Прицеп")
+        repo.addTransport(5, "Автомобиль")
+
+// Add sample entries for AgregatEntity
+        repo.addAgregat(1, "Плуг")
+        repo.addAgregat(2, "Борона")
+        repo.addAgregat(3, "Сеялка")
+        repo.addAgregat(4, "Культиватор")
+        repo.addAgregat(5, "Аэратор")
+
+// Add sample entries for DepthEntity
+        repo.addDepth(1, "10 см")
+        repo.addDepth(2, "12 см")
+        repo.addDepth(3, "15 см")
+        repo.addDepth(4, "18 см")
+        repo.addDepth(5, "20 см")
+
+// Add sample entries for SpeedEntity
+        repo.addSpeed(1, "5 км/ч")
+        repo.addSpeed(2, "7 км/ч")
+        repo.addSpeed(3, "10 км/ч")
+        repo.addSpeed(4, "12 км/ч")
+        repo.addSpeed(5, "15 км/ч")
+
+// Add sample entries for WaterEntity
+        repo.addWater(1, "Нормальное увлажнение")
+        repo.addWater(2, "Легкое увлажнение")
+        repo.addWater(3, "Избыточное увлажнение")
+        repo.addWater(4, "Недостаточное увлажнение")
+        repo.addWater(5, "Среднее увлажнение")
+    }
 }
