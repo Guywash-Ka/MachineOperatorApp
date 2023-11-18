@@ -108,9 +108,6 @@ class MainActivity : ComponentActivity() {
 
                                 val worker = repo.getProfileByNfc(mainState.nfcSerialNumber!!)
 
-                                Log.e("FPODFNSD", "$worker")
-                                Log.e("RSFPSUH", "[${mainState.nfcSerialNumber}]")
-
                                 if (worker.id != -1) {
                                     mainStateFlow.value = MainActivityState(false, true, null, worker)
                                 }
@@ -167,8 +164,6 @@ class MainActivity : ComponentActivity() {
                         .let { if (it.length == 1) "0$it" else it }
                         .uppercase()
                 }
-
-            Log.e("TAG", "$id")
 
             mainStateFlow.update {
                 it.copy(
