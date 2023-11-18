@@ -28,6 +28,7 @@ import com.example.mechanicoperatorapp.data.dataClasses.TemplatesModel
 import com.example.mechanicoperatorapp.data.dataClasses.TransportEntity
 import com.example.mechanicoperatorapp.data.dataClasses.WaterEntity
 import com.example.mechanicoperatorapp.data.dataClasses.WorkManEntity
+import com.example.mechanicoperatorapp.data.dataClasses.Worker
 import com.example.mechanicoperatorapp.data.dataClasses.WorkerEntity
 import com.example.mechanicoperatorapp.data.database.MechanicDatabase
 import com.example.mechanicoperatorapp.network.RetrofitInstance.API
@@ -331,8 +332,14 @@ class AppRepository private constructor(
             gson.fromJson(API.getAllAgronoms().body()!!.string(), Array<AgronomEntity>::class.java).forEach {
                 database.agronomDao().updateAgronom(it)
             }
+            gson.fromJson(API.getAllWorkers().body()!!.string(), Array<WorkerEntity>::class.java).forEach {
+                database.workerDao().updateWorker(it)
+            }
             gson.fromJson(API.getAllTemplates().body()!!.string(), Array<TemplatesEntity>::class.java).forEach {
                 database.templatesDao().updateTemplate(it)
+            }
+            gson.fromJson(API.getAllTaskFields().body()!!.string(), Array<FieldsEntity>::class.java).forEach {
+                database.fieldsDao().updateField(it)
             }
             gson.fromJson(API.getAllOperations().body()!!.string(), Array<OperationEntity>::class.java).forEach {
                 database.infoClassesDao().updateOperations(it)
@@ -357,7 +364,6 @@ class AppRepository private constructor(
             gson.fromJson(API.getAllAgregats().body()!!.string(), Array<AgregatEntity>::class.java).forEach {
                 database.infoClassesDao().updateAgregats(it)
             }
-// and so on for remaining classes
 
         } catch (e: Exception) {
             e.message?.let { Log.i("Exception in sync", it) }

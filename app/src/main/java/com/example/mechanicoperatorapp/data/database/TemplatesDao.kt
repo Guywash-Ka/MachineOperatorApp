@@ -21,11 +21,11 @@ interface TemplatesDao {
     fun getTemplateByTitle(title: String): Flow<Templates>
 
     @Query("SELECT * FROM Templates")
-    fun getAllTemplates(): List<Templates>
+    suspend fun getAllTemplates(): List<Templates>
 
     @Query("SELECT id FROM Templates")
     fun getAllIds(): Flow<List<Int>>
 
     @Update
-    fun updateTemplate(template: TemplatesEntity)
+    suspend fun updateTemplate(template: TemplatesEntity)
 }

@@ -43,51 +43,51 @@ interface InfoClassesDao {
     suspend fun addWater(water: WaterEntity)
 
     @Query("SELECT * FROM Operation")
-    fun getOperations(): List<OperationEntity>
+    suspend fun getOperations(): List<OperationEntity>
 
     @Query("SELECT * FROM Water")
-    fun getWaters(): List<WaterEntity>
+    suspend fun getWaters(): List<WaterEntity>
 
     @Query("SELECT * FROM FarmField")
-    fun getFarmFields(): List<FarmFieldEntity>
+    suspend fun getFarmFields(): List<FarmFieldEntity>
 
     @Query("SELECT * FROM WorkMan")
-    fun getWorkMans(): List<WorkManEntity>
+    suspend fun getWorkMans(): List<WorkManEntity>
 
     @Query("SELECT * FROM Transport")
-    fun getTransports(): List<TransportEntity>
+    suspend fun getTransports(): List<TransportEntity>
 
     @Query("SELECT * FROM Agregat")
-    fun getAgregats(): List<AgregatEntity>
+    suspend fun getAgregats(): List<AgregatEntity>
 
     @Query("SELECT * FROM Depth")
-    fun getDepths(): List<DepthEntity>
+    suspend fun getDepths(): List<DepthEntity>
 
     @Query("SELECT * FROM Speed")
-    fun getSpeeds(): List<SpeedEntity>
+    suspend fun getSpeeds(): List<SpeedEntity>
 
     @Update
-    fun updateOperations(operation: OperationEntity)
+    suspend fun updateOperations(operation: OperationEntity)
 
     @Update
-    fun updateWaters(water: WaterEntity)
+    suspend fun updateWaters(water: WaterEntity)
 
     @Update
-    fun updateFarmFields(farmField: FarmFieldEntity)
+    suspend fun updateFarmFields(farmField: FarmFieldEntity)
 
     @Update
-    fun updateWorkMans(workMan: WorkManEntity)
+    suspend fun updateWorkMans(workMan: WorkManEntity)
 
     @Update
-    fun updateTransports(transport: TransportEntity)
+    suspend fun updateTransports(transport: TransportEntity)
 
     @Update
-    fun updateAgregats(agregat: AgregatEntity)
+    suspend fun updateAgregats(agregat: AgregatEntity)
 
     @Update
-    fun updateDepths(depth: DepthEntity)
+    suspend fun updateDepths(depth: DepthEntity)
 
     @Update
-    fun updateSpeeds(speed: SpeedEntity)
+    suspend fun updateSpeeds(speed: SpeedEntity)
 
 }

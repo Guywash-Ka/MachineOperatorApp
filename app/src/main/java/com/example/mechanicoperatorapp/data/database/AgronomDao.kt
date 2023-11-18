@@ -18,8 +18,8 @@ interface AgronomDao {
     suspend fun addAgronom(agronom: AgronomEntity)
 
     @Query("SELECT * FROM Agronom")
-    fun getAllAgronoms(): List<AgronomEntity>
+    suspend fun getAllAgronoms(): List<AgronomEntity>
 
     @Update
-    fun updateAgronom(agronom: AgronomEntity)
+    suspend fun updateAgronom(agronom: AgronomEntity)
 }
