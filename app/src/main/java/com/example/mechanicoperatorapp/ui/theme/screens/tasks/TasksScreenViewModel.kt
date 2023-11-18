@@ -30,11 +30,12 @@ class TasksScreenViewModel(
 
     val uiState: StateFlow<TasksScreenUIState> = combine(
         selectableUIState,
-        repository.getAllTasks()
-    ) { selectable, tasksScreenData ->
+        repository.getTaskModelById(1)
+    ) { selectable, tasks ->
+
 
         TasksScreenUIState(
-            tasks = emptyList(),
+            tasks = listOf(tasks.templateName),
             filter = selectable.filter,
         )
 
