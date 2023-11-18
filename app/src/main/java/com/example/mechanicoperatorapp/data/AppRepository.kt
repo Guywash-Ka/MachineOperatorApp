@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.example.mechanicoperatorapp.data.dataClasses.AgregatEntity
+import com.example.mechanicoperatorapp.data.dataClasses.AgronomEntity
 import com.example.mechanicoperatorapp.data.dataClasses.DepthEntity
 import com.example.mechanicoperatorapp.data.dataClasses.FarmFieldEntity
 import com.example.mechanicoperatorapp.data.dataClasses.Fields
@@ -187,6 +188,14 @@ class AppRepository private constructor(
     suspend fun addSpeed(id: Int, name: String) = database.infoClassesDao().addSpeed(SpeedEntity(id, name))
 
     suspend fun addWater(id: Int, name: String) = database.infoClassesDao().addWater(WaterEntity(id, name))
+
+    suspend fun addAgronom(id: Int, name: String, password: String, nfc: String) = database.agronomDao().addAgronom(
+        AgronomEntity(id, name, password, nfc)
+    )
+
+    suspend fun addWorker(id: Int, name: String, password: String, nfc: String) = database.workerDao().addWorker(
+        WorkerEntity(id, name, password, nfc)
+    )
 
     fun getOperations() = database.infoClassesDao().getOperations()
     fun getFarmFields() = database.infoClassesDao().getFarmFields()

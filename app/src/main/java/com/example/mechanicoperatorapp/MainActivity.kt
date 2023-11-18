@@ -139,6 +139,8 @@ class MainActivity : ComponentActivity() {
 //        loadFields(repo)
 //        loadTemplates(repo)
 //        loadTasks(repo)
+        loadAgronom(repo)
+        loadWorker(repo)
 
         setContent {
 
@@ -429,7 +431,27 @@ fun loadTemplates(repo: AppRepository) {
 fun loadTasks(repo: AppRepository) {
     GlobalScope.launch {
         repo.addTask(1, 2, 1, 1, listOf(1, 3, 2))
-        repo.addTask(2, 1, 2, 3, listOf(2, 2, 2))
-        repo.addTask(3, 2, 1, 3, listOf(3, 3, 3))
+        repo.addTask(2, 1, 2, 3, listOf(2, 2))
+        repo.addTask(3, 2, 1, 3, listOf(3, 3))
+    }
+}
+
+fun loadAgronom(repo: AppRepository) {
+    GlobalScope.launch {
+        repo.addAgronom(1, "Иванов Петр", "1234567", "11:11:11:11")
+        repo.addAgronom(2, "Белкин Никита", "qwerty", "12:11:11:11")
+        repo.addAgronom(3, "Лазарев Сергей", "admin", "13:11:11:11")
+        repo.addAgronom(4, "Ракитин Егор", "login", "14:11:11:11")
+        repo.addAgronom(5, "Мирон Федоров", "password", "15:11:11:11")
+    }
+}
+
+fun loadWorker(repo: AppRepository) {
+    GlobalScope.launch {
+        repo.addWorker(1, "Смирнов Александр" ,"0987", "16:11:11:11")
+        repo.addWorker(2, "Курыкин Владимир" ,"0988", "17:11:11:11")
+        repo.addWorker(3, "Петросян Оганес" ,"0989", "18:11:11:11")
+        repo.addWorker(4, "Лежнина Елена" ,"0997", "19:11:11:11")
+        repo.addWorker(5, "Кривошеин Александр" ,"0998", "20:11:11:11")
     }
 }
