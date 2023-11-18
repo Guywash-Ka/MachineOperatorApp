@@ -54,9 +54,8 @@ class AppRepository private constructor(
         runBlocking  { context.dataStore.edit { it[roleKey] = role } }
     }
 
-    suspend fun getProfileByNfc(nfcRaw: String): RoleAndId {
+    suspend fun getProfileByNfc(nfc: String): RoleAndId {
         val gson = GsonBuilder().create()
-        val nfc = nfcRaw.lowercase()
         val response = API.getUserByNfc(nfc)
         return try {
             val res = gson.fromJson(
