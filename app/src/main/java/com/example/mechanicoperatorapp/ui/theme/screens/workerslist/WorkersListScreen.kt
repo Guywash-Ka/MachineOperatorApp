@@ -1,4 +1,4 @@
-package com.example.mechanicoperatorapp.ui.theme.screens.newtask
+package com.example.mechanicoperatorapp.ui.theme.screens.workerslist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -19,11 +19,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mechanicoperatorapp.data.AppRepository
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTaskScreen(
-    viewModel: AddTaskScreenViewModel = viewModel(
-        factory = AddTaskScreenViewModelFactory(AppRepository.get())
+fun WorkersListScreen(
+    viewModel: WorkersListScreenViewModel = viewModel(
+        factory = WorkersListScreenViewModelFactory(AppRepository.get())
     )
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -33,11 +35,10 @@ fun AddTaskScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Задачи",
+                        text = "Работники",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
-
                 }
             )
         }
@@ -52,13 +53,7 @@ fun AddTaskScreen(
                 )
                 .fillMaxWidth()
         ) {
-
-            Text("Список рабочих", fontWeight = FontWeight.Medium)
-            uiState.workers.forEach {
-                Text("ID = ${it.id}; Name = ${it.name}")
-            }
-
+            Text(uiState.toString())
         }
-
     }
 }
