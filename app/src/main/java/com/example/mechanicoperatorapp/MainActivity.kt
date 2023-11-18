@@ -11,11 +11,13 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,8 +34,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -126,10 +130,12 @@ class MainActivity : ComponentActivity() {
         )
 
         val repo = AppRepository.get()
-        loadData(repo)
-        loadFields(repo)
-        loadTemplates(repo)
-        loadTasks(repo)
+//        loadData(repo)
+//        loadFields(repo)
+//        loadTemplates(repo)
+//        loadTasks(repo)
+        loadAgronom(repo)
+        loadWorker(repo)
 
         setContent {
 
@@ -428,5 +434,25 @@ fun loadTasks(repo: AppRepository) {
         repo.addTask(1, 2, 1, 1, listOf(1, 3, 2))
         repo.addTask(2, 1, 2, 3, listOf(2, 2))
         repo.addTask(3, 2, 1, 3, listOf(3, 3))
+    }
+}
+
+fun loadAgronom(repo: AppRepository) {
+    GlobalScope.launch {
+        repo.addAgronom(1, "Иванов Петр", "1234567", "11:11:11:11")
+        repo.addAgronom(2, "Белкин Никита", "qwerty", "12:11:11:11")
+        repo.addAgronom(3, "Лазарев Сергей", "admin", "13:11:11:11")
+        repo.addAgronom(4, "Ракитин Егор", "login", "14:11:11:11")
+        repo.addAgronom(5, "Мирон Федоров", "password", "15:11:11:11")
+    }
+}
+
+fun loadWorker(repo: AppRepository) {
+    GlobalScope.launch {
+        repo.addWorker(1, "Смирнов Александр" ,"0987", "16:11:11:11")
+        repo.addWorker(2, "Курыкин Владимир" ,"0988", "17:11:11:11")
+        repo.addWorker(3, "Петросян Оганес" ,"0989", "18:11:11:11")
+        repo.addWorker(4, "Лежнина Елена" ,"0997", "19:11:11:11")
+        repo.addWorker(5, "Кривошеин Александр" ,"0998", "20:11:11:11")
     }
 }
