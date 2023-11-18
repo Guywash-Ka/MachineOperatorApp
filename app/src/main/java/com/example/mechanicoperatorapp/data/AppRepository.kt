@@ -141,8 +141,7 @@ class AppRepository private constructor(
     }
 
     fun getAllTasks() = flow {
-        database.tasksDao().getAllTasks()
-        emit(database.tasksDao().getAllTasks())
+        emit(database.tasksDao().getAllTasks().map { it.map { t ->  } })
         if (isOnline(context)) {
             emit(API.getTasks())
         }
