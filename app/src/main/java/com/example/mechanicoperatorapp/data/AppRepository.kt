@@ -286,11 +286,19 @@ class AppRepository private constructor(
     }
 
     fun getTemplates() = flow {
+        val resLocalData = mutableListOf<TemplatesModel>()
         val localData = database.templatesDao().getAllTemplates()
-        emit(localData)
+        localData.forEach { temp ->
+            resLocalData.add(TemplatesModel(temp.id, temp.title, parseRequiredFieldsIntoFieldsList(temp.requiredFields)))
+        }
+        emit(resLocalData)
         if (isOnline(context)) {
             val remoteData = Gson().fromJson(API.getAllTemplates().body()!!.string(), Array<Templates>::class.java).toList()
-            emit(remoteData)
+            val resRemoteData = mutableListOf<TemplatesModel>()
+            remoteData.forEach { temp ->
+                resRemoteData.add(TemplatesModel(temp.id, temp.title, parseRequiredFieldsIntoFieldsList(temp.requiredFields)))
+            }
+            emit(resRemoteData)
         }
     }
 
