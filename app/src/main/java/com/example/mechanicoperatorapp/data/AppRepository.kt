@@ -128,7 +128,7 @@ class AppRepository private constructor(
         return resList
     }
 
-    fun getTaskById(id: Int): Flow<TasksModel> {
+    fun getTaskModelById(id: Int): Flow<TasksModel> {
         return combine(
             database.tasksDao().getTaskById(id),
             getAgronomNameById(id),
