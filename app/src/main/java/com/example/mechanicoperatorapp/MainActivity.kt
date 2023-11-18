@@ -135,6 +135,7 @@ class MainActivity : ComponentActivity() {
 
         val repo = AppRepository.get()
 //        loadData(repo)
+//        loadFields(repo)
 
         setContent {
 
@@ -398,5 +399,18 @@ fun loadData(repo: AppRepository) {
         repo.addWater(3, "Избыточное увлажнение")
         repo.addWater(4, "Недостаточное увлажнение")
         repo.addWater(5, "Среднее увлажнение")
+    }
+}
+
+fun loadFields(repo: AppRepository) {
+    GlobalScope.launch {
+        repo.addFieldWithName(1, "Операция")
+        repo.addFieldWithName(2, "Поле")
+        repo.addFieldWithName(3, "Исполнитель")
+        repo.addFieldWithName(4, "Техника")
+        repo.addFieldWithName(5, "Агрегат")
+        repo.addFieldWithName(6, "Глубина")
+        repo.addFieldWithName(7, "Скорость")
+        repo.addFieldWithName(8, "Расход раствора")
     }
 }
