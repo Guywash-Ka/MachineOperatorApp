@@ -157,7 +157,14 @@ class AppRepository private constructor(
 
     suspend fun addWater(id: Int, name: String) = database.infoClassesDao().addWater(WaterEntity(id, name))
 
-
+    fun getOperations() = database.infoClassesDao().getOperations()
+    fun getFarmFields() = database.infoClassesDao().getFarmFields()
+    fun getWorkMans() = database.infoClassesDao().getWorkMans()
+    fun getTransports() = database.infoClassesDao().getTransports()
+    fun getAgregats() = database.infoClassesDao().getAgregats()
+    fun getDepths() = database.infoClassesDao().getDepths()
+    fun getSpeeds() = database.infoClassesDao().getSpeeds()
+    fun getWaters() = database.infoClassesDao().getWaters()
 
     companion object {
         private var INSTANCE: AppRepository? = null
