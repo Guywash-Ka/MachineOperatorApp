@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.mechanicoperatorapp.data.AppRepository
+import com.example.mechanicoperatorapp.data.dataClasses.TemplatesModel
 import com.example.mechanicoperatorapp.data.dataClasses.WorkManEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 
 data class AddTaskScreenUIState(
     val workers: List<WorkManEntity> = emptyList(),
+    val templates: List<TemplatesModel> = emptyList()
 )
 
 data class SelectableUIState(
@@ -29,10 +31,12 @@ class AddTaskScreenViewModel(
     val uiState: StateFlow<AddTaskScreenUIState> = combine(
         selectableUIState,
         repository.getWorkMans(),
-    ) { selectable, workers ->
+        repository.getTemplates()
+    ) { selectable, workers, templates ->
 
         AddTaskScreenUIState(
             workers = workers,
+            templates = templates
         )
 
     }.stateIn(
