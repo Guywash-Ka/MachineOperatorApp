@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.mechanicoperatorapp.data.dataClasses.Tasks
 import com.example.mechanicoperatorapp.data.dataClasses.TasksEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TasksDao {
@@ -14,4 +15,7 @@ interface TasksDao {
 
     @Query("SELECT * FROM Tasks WHERE id=:id")
     fun getTaskById(id: Int): Tasks
+
+    @Query("SELECT * FROM Tasks")
+    fun getAllTasks(): Flow<List<Tasks>>
 }

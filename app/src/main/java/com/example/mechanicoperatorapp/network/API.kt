@@ -18,4 +18,13 @@ interface API {
 
     @GET("/getRoleAndIdByPassword/{password}")
     suspend fun getUserByPassword(@Path("password") password: String): Response<ResponseBody>
+
+    @GET("/")
+    suspend fun getField(): Response<ResponseBody>
+
+    @GET("/")
+    suspend fun getTemplate(): Response<ResponseBody>
+
+    @GET("/")
+    suspend fun getTasks(): Response<ResponseBody>
 }

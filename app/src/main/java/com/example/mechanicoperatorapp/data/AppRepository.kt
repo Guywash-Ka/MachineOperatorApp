@@ -18,6 +18,8 @@ import com.example.mechanicoperatorapp.network.RetrofitInstance.API
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
@@ -108,6 +110,15 @@ class AppRepository private constructor(
     fun getTemplateByTitle(title: String) = database.templatesDao().getTemplateByTitle(title)
 
     fun getTaskById(id: Int) = database.tasksDao().getTaskById(id)
+
+    fun getAllTasks() = flow {
+        emit(database.tasksDao().getAllTasks())
+        emit(API.getTasks())
+    }
+
+    fun getAllTemplates() = database.templatesDao().getAllTemplates()
+
+    fun getAllFields() = database.fieldsDao().getAllFields()
 
     companion object {
         private var INSTANCE: AppRepository? = null

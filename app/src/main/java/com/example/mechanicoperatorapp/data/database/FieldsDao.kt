@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.mechanicoperatorapp.data.dataClasses.Fields
 import com.example.mechanicoperatorapp.data.dataClasses.FieldsEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FieldsDao {
@@ -17,4 +18,7 @@ interface FieldsDao {
 
     @Query("SELECT * FROM Fields WHERE name=:name")
     fun getFieldByName(name: String): Fields
+
+    @Query("SELECT * FROM Fields")
+    fun getAllFields(): Flow<List<Fields>>
 }

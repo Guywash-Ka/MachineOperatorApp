@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.mechanicoperatorapp.data.dataClasses.Templates
 import com.example.mechanicoperatorapp.data.dataClasses.TemplatesEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TemplatesDao {
@@ -17,4 +18,7 @@ interface TemplatesDao {
 
     @Query("SELECT * FROM Templates WHERE title=:title")
     fun getTemplateByTitle(title: String): Templates
+
+    @Query("SELECT * FROM Templates")
+    fun getAllTemplates(): Flow<List<Templates>>
 }
