@@ -2,7 +2,6 @@ package com.example.backend.controller;
 
 import com.example.backend.entities.*;
 import com.example.backend.repo.AgronomistRepo;
-import com.example.backend.repo.TaskRepo;
 import com.example.backend.repo.WorkerRepo;
 import com.example.backend.transferClasses.RoleAndId;
 import com.example.backend.transferClasses.User;
@@ -11,17 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Objects;
 
 @RestController
 public class MyController {
-    @Autowired
-    MyRepo myRepo;
-    @Autowired
-    TaskRepo taskRepo;
+
     @Autowired
     WorkerRepo workerRepo;
     @Autowired

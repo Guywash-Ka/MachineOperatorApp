@@ -4,11 +4,12 @@ import com.example.backend.transferClasses.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Data
-@Table(name = "agronomist", schema = "public", catalog = "AgroDB")
+@Table(name = "agronomist", schema = "public"/*, catalog = "AgroDB"*/)
 public class AgronomistDao extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -23,4 +24,5 @@ public class AgronomistDao extends User {
     @Basic
     @Column(name = "nfc", nullable = true, length = -1)
     private String nfc;
+
 }

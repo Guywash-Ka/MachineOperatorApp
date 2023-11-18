@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskRepo extends JpaRepository<TaskDao,Integer> {
-    @Modifying
-    @Transactional
-    @Query("update TaskDao t set t.workerId = ?1  where t.id = ?2")
-    Integer setWorker(int workerId,int taskId);
-
+//    @Modifying
+//    @Transactional
+//    @Query("update TaskDao t set t.workerId = ?1  where t.id = ?2")
+//    Integer setWorker(int workerId,int taskId);
+//    TaskDao findFirstByOrderAtDesc();
+    TaskDao findFirstByOrderByIdDesc();
     List<TaskDao> findAllByWorkerId(int id);
+    List<TaskDao> findAllByIdAfter(int id);
 
     TaskDao findById(int id);
 }
