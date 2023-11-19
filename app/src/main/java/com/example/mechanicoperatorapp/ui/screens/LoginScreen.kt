@@ -15,6 +15,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment
@@ -34,7 +38,8 @@ import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    showTryAgain: Boolean = false
+    showTryAgain: Boolean,
+    onSendPassword: (String) -> Unit
 ) {
 
     Box(
@@ -71,20 +76,22 @@ fun LoginScreen(
                     color = Color(0xFFFFFFFF),
                 )
             )
-            
+
+            var password by remember { mutableStateOf("") }
+
             TextField(
                 placeholder = { Text("Пароль") },
-                value = "",
-                onValueChange = {},
+                value = password,
+                onValueChange = { password = it.trim() },
                 shape = RoundedCornerShape(size = 10.dp),
+                singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(58.dp)
-
             )
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onSendPassword(password) },
                 shape = RoundedCornerShape(size = 10.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFFCA639),
@@ -99,7 +106,6 @@ fun LoginScreen(
             Text(
                 text = "или",
 
-                // poppins bottons
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight(600),

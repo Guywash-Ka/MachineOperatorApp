@@ -32,6 +32,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -143,6 +144,7 @@ class MainActivity : ComponentActivity() {
             val mainState by mainStateFlow.collectAsStateWithLifecycle()
 
             val navController = rememberNavController()
+            val scope = rememberCoroutineScope()
 
             var loginShowTryAgain by remember { mutableStateOf(false) }
 
@@ -159,7 +161,24 @@ class MainActivity : ComponentActivity() {
 
                         !mainState.isLoggedIn -> {
 
-                            LoginScreen(loginShowTryAgain)
+                            LoginScreen(
+                                showTryAgain = loginShowTryAgain,
+                                onSendPassword = { password ->
+                                    scope.launch {
+                                        val worker = repo.getProfileByPassword(password)
+
+                                        if (worker.id != -1) {
+                                            mainStateFlow.value = MainActivityState(false, true, null, worker)
+                                        } else {
+                                            loginShowTryAgain = true
+                                        }
+                                    }
+                                }
+                            )
+
+                            LaunchedEffect(null) {
+                                repo.sync()
+                            }
 
                             if (mainState.nfcSerialNumber != null) {
                                 LaunchedEffect(mainState) {

@@ -29,8 +29,8 @@ class AgronomistProfileScreenViewModel(
 
     val uiState: StateFlow<AgronomistProfileScreenUIState> = combine(
         selectableUIState,
-        repository.getId().map { repository.getAgronomNameById(it) }
-    ) { selectable, name ->
+        repository.getAgronoms(),
+    ) { selectable, names ->
 
         AgronomistProfileScreenUIState(
             name = "Биньямин Нетаньяху",
