@@ -61,8 +61,8 @@ fun TaskConstructor(
                 .padding(
                     bottom = pv.calculateBottomPadding(),
                     top = pv.calculateTopPadding(),
-                    start = pv.calculateStartPadding(LayoutDirection.Ltr),
-                    end = pv.calculateEndPadding(LayoutDirection.Ltr)
+                    start = pv.calculateStartPadding(LayoutDirection.Ltr) + 8.dp,
+                    end = pv.calculateEndPadding(LayoutDirection.Ltr) + 8.dp
                 )
                 .fillMaxWidth()
         ) {
@@ -72,7 +72,10 @@ fun TaskConstructor(
                     showChooser = true
                     listToChooseFrom = field.options
                     optionIndex = index
-                }) {
+                },
+                    modifier = Modifier.fillMaxWidth()
+
+                ) {
                     if (field.chosenOption != null) {
                         Text(field.chosenOption)
                     } else {
@@ -84,7 +87,9 @@ fun TaskConstructor(
 
             Button(onClick = {
                 onSave()
-            }) {
+            },
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text("Сохранить")
             }
         }
@@ -96,12 +101,16 @@ fun TaskConstructor(
                 ) {
 
                     listToChooseFrom.forEachIndexed() { index, item ->
-                        Button(onClick = {
+                        OutlinedButton(onClick = {
 
                             Log.e("TaskConstructor", "HERE: ${optionIndex} ${item.second}")
 
                             selectOption(optionIndex!!, item.second)
-                        }) {
+                            showChooser = false
+                        },
+                            modifier = Modifier.fillMaxWidth()
+
+                        ) {
                             Text(item.first)
                         }
                     }

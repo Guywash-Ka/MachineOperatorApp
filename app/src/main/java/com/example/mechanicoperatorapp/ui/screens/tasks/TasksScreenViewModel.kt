@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.stateIn
 
 
 data class TasksScreenUIState(
-    val tasks: List<Tasks> = emptyList(),
+    val tasks: List<TasksSQLModel> = emptyList(),
     val filter: Int = 0,
 )
 
@@ -33,12 +33,8 @@ class TasksScreenViewModel(
 
     val uiState: StateFlow<TasksScreenUIState> = combine(
         selectableUIState,
-        repository.getTasks(),
-        repository.getTaskModelById(1)
-    ) { selectable, tasks, task ->
-
-        Log.e("TasksScreenViewModel", "I'M HERE")
-        Log.e("TasksScreenViewModel", "$task")
+        repository.getAllTasksModels(),
+    ) { selectable, tasks ->
 
         TasksScreenUIState(
             tasks = tasks,
