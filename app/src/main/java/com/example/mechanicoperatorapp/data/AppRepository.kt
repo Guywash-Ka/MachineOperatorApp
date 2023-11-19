@@ -147,7 +147,7 @@ class AppRepository private constructor(
                 getWorkerNameById(task.workerId),
                 getTemplateById(task.templateId)
             ) { agroName, workName, template ->
-                val fieldsList = parseRequiredFieldsIntoFieldsList(template.requiredFields)
+                val fieldsList = parseRequiredFieldsIntoFieldsList(template.taskFields)
                 return@combine TasksModel(id, agroName, workName, template.title, fieldsList)
             }.first()
         }
@@ -304,14 +304,14 @@ class AppRepository private constructor(
         val resLocalData = mutableListOf<TemplatesModel>()
         val localData = database.templatesDao().getAllTemplates()
         localData.forEach { temp ->
-            resLocalData.add(TemplatesModel(temp.id, temp.title, parseRequiredFieldsIntoFieldsList(temp.requiredFields)))
+            resLocalData.add(TemplatesModel(temp.id, temp.title, parseRequiredFieldsIntoFieldsList(temp.taskFields)))
         }
         emit(resLocalData)
         if (isOnline(context)) {
             val remoteData = Gson().fromJson(API.getAllTemplates().body()!!.string(), Array<Templates>::class.java).toList()
             val resRemoteData = mutableListOf<TemplatesModel>()
             remoteData.forEach { temp ->
-                resRemoteData.add(TemplatesModel(temp.id, temp.title, parseRequiredFieldsIntoFieldsList(temp.requiredFields)))
+                resRemoteData.add(TemplatesModel(temp.id, temp.title, parseRequiredFieldsIntoFieldsList(temp.taskFields)))
             }
             emit(resRemoteData)
         }
@@ -335,9 +335,9 @@ class AppRepository private constructor(
             gson.fromJson(API.getAllWorkers().body()!!.string(), Array<WorkerEntity>::class.java).forEach {
                 database.workerDao().updateWorker(it)
             }
-            gson.fromJson(API.getAllTemplates().body()!!.string(), Array<TemplatesEntity>::class.java).forEach {
-                database.templatesDao().updateTemplate(it)
-            }
+//            gson.fromJson(API.getAllTemplates().body()!!.string(), Array<TemplatesEntity>::class.java).forEach {
+//                database.templatesDao().updateTemplate(it)
+//            }
             gson.fromJson(API.getAllTaskFields().body()!!.string(), Array<FieldsEntity>::class.java).forEach {
                 database.fieldsDao().updateField(it)
             }
