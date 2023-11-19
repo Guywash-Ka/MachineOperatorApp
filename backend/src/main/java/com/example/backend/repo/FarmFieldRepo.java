@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface FarmFieldRepo extends JpaRepository<FarmFieldDao, Integer> {
     List<FarmFieldDao> findAll();
+    FarmFieldDao findById(int id);
 }

@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface AgregatRepo extends JpaRepository<AgregatDao, Integer> {
     List<AgregatDao> findAll();
+    AgregatDao findById(int id);
 }

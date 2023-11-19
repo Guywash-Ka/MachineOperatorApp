@@ -38,12 +38,12 @@ public class MyController {
 
     }
     @PostMapping("/saveWorker")
-    public ResponseEntity<User> saveWorker(WorkerDao wdao){
+    public ResponseEntity<WorkerDao> saveWorker(@RequestBody WorkerDao wdao){
 
         return new ResponseEntity<>(workerRepo.save(wdao),HttpStatus.OK);
     }
     @PostMapping("/saveAgronom")
-    public ResponseEntity<User> saveWorker(AgronomistDao adao){
+    public ResponseEntity<AgronomistDao> saveAgronom(@RequestBody AgronomistDao adao){
 
         return new ResponseEntity<>(agronomistRepo.save(adao),HttpStatus.OK);
     }
@@ -76,6 +76,9 @@ public class MyController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
+//    @PutMapping("/updateSalary")
+//    ResponseEntity<>
+
 
 
 

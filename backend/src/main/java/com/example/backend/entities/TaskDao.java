@@ -40,12 +40,21 @@ public class TaskDao {
 //    @Column(name = "template_id", nullable = true)
 //    private Integer templateId;
 //    @Basic
+//    @Basic
+//    @Column(name = "importance")
+//    private Integer importance;
+//    @Basic
+//    @Column(name = "price")
+//    private float price;
+//    @Basic
+//    @Column(name = "is_done")
+//    private boolean isDone=false;
 
 
 
-    @Column(name = "arr", columnDefinition = "varying[]")
+    @Column(name = "arr", columnDefinition = "integer[]")
 //    @Convert(converter = Converter.class)
-    @ColumnTransformer(write = "?::varchar      []")
+    @ColumnTransformer(write = "?::integer[]")
     private String arr;
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")

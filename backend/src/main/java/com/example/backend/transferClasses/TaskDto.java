@@ -15,5 +15,8 @@ public class TaskDto {
     private Integer agronomId;
     private Integer workerId;
     private Integer templateId;
+//    private Integer importance;
+//    private float price;
+//    private boolean isDone=false;
     private List<Integer> arr;
 }

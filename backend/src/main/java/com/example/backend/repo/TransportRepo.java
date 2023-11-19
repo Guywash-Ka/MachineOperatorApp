@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface TransportRepo extends JpaRepository<TransportDao, Integer> {
     List<TransportDao> findAll();
+    TransportDao findById(int id);
 }

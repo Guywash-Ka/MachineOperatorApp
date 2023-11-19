@@ -12,4 +12,5 @@ import java.util.List;
 public interface TemplatesRepo extends JpaRepository<TemplatesDao, Integer> {
     TemplatesDao findById(int id);
     List<TemplatesDao> findAll();
+//    Integer ();
 }

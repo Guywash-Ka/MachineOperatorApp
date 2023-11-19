@@ -24,6 +24,12 @@ public class WorkerDao extends User {
     @Basic
     @Column(name = "nfc", nullable = true, length = -1)
     private String nfc;
+    @Basic
+    @Column(name= "salary")
+    private double salary;
+    @Basic
+    @Column(name = "update_time")
+    private Long update_time;
 
 
 

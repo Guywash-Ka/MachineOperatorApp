@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface OperationRepo extends JpaRepository<OperationDao,Integer> {
     List<OperationDao> findAll();
+    OperationDao findById(int id);
 }

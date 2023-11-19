@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface WaterRepo extends JpaRepository<WaterDao,Integer> {
     List<WaterDao> findAll();
+    WaterDao findById(int id);
 }

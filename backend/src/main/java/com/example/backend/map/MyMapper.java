@@ -1,10 +1,10 @@
 package com.example.backend.map;
 
-import com.example.backend.entities.AgronomistDao;
-import com.example.backend.entities.TaskDao;
-import com.example.backend.entities.TemplatesDao;
-import com.example.backend.entities.WorkerDao;
+import com.example.backend.entities.*;
+import com.example.backend.transferClasses.Docs;
 import com.example.backend.transferClasses.TaskDto;
+import com.example.backend.transferClasses.TemplateDTO;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -26,8 +26,28 @@ public interface MyMapper {
     @Mapping(source = "worker", target = "workerId", qualifiedByName = "workerToId")
     @Mapping(source = "template", target = "templateId", qualifiedByName = "templateToId")
     TaskDto TaskDaoToDto(TaskDao dao);
+    @Mapping(source = "taskFields", target = "taskFields",qualifiedByName = "TempListToListInt")
+    TemplateDTO tempDAOtoTempDTO(TemplatesDao dao);
 
+
+    List<TemplateDTO> tempListDAOtoDTO(List<TemplatesDao> daos);
     List<TaskDto> TaskDaoListToDtoList(List<TaskDao> daos);
+    Docs WorkToDocs(WorkerDao dao);
+    Docs AgroToDocs(AgronomistDao dao);
+    List<Docs> WorkListToDocs(List<WorkerDao> dao);
+    List<Docs> AgroListToDocs(List<AgronomistDao> dao);
+
+    @Named("TempListToListInt")
+    public static List<Integer> tempListToListInt(List<TaskFieldsDao> taskFieldsDaos){
+        List<Integer> integers=new ArrayList<>();
+        for (int i = 0; i < taskFieldsDaos.size(); i++) {
+            integers.add(taskFieldsDaos.get(i).getId());
+        }
+        return integers;
+
+
+    }
+
 
     @Named("objToArr")
     public static List<Integer> objToArr(String object) {
@@ -37,7 +57,7 @@ public interface MyMapper {
         List<String> strs= List.of(res.split(","));
         List<Integer> ints= new ArrayList<>();
         for (int i = 0; i < strs.size(); i++) {
-            ints.add(Integer.valueOf(strs.get(i)));
+            ints.add(Integer.parseInt(strs.get(i).replaceAll("\"","").trim()));
 
         }
 
