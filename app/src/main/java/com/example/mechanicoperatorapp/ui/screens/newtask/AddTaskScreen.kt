@@ -56,7 +56,8 @@ fun AddTaskScreen(
             fields = uiState.fieldsUIState,
             selectOption = { index, id ->
                 viewModel.selectOption(index, id)
-            }
+            },
+            onSave = { viewModel.onSave(selectedTemplate!!.id) },
         )
     } else {
 

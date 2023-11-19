@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.mechanicoperatorapp.data.AppRepository
+import com.example.mechanicoperatorapp.data.dataClasses.Tasks
 import com.example.mechanicoperatorapp.data.dataClasses.TasksModel
+import com.example.mechanicoperatorapp.data.dataClasses.TasksSQLModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +16,7 @@ import kotlinx.coroutines.flow.stateIn
 
 
 data class TasksScreenUIState(
-    val tasks: List<TasksModel> = emptyList(),
+    val tasks: List<Tasks> = emptyList(),
     val filter: Int = 0,
 )
 
@@ -31,7 +33,7 @@ class TasksScreenViewModel(
 
     val uiState: StateFlow<TasksScreenUIState> = combine(
         selectableUIState,
-        repository.getAllTasksModel(),
+        repository.getTasks(),
         repository.getTaskModelById(1)
     ) { selectable, tasks, task ->
 
