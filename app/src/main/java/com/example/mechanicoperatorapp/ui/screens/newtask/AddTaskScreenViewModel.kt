@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 data class AddTaskScreenUIState(
     val workers: List<WorkManEntity> = emptyList(),
@@ -94,7 +95,7 @@ class AddTaskScreenViewModel(
             Log.e("AddTask", "SENDING TASK!!!")
 
             repository.addTask(
-                id = 1337,
+                id = 1337 + Random.nextInt(1, 10000000),
                 agronomId = repository.getId().first(),
                 workerId = 1,
                 templateId = templateId,
