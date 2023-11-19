@@ -86,12 +86,20 @@ sealed class Screen(val route: String, @StringRes val name: Int) {
     object WorkersList : Screen("workers-list", R.string.workers_list_screen)
 }
 
+//private data class MainActivityState(
+//    val showSplash: Boolean = false,
+//    val isLoggedIn: Boolean = false,
+//    val nfcSerialNumber: String? = null,
+//    val worker: RoleAndId? = null,
+//)
+
 private data class MainActivityState(
     val showSplash: Boolean = false,
-    val isLoggedIn: Boolean = false,
+    val isLoggedIn: Boolean = true,
     val nfcSerialNumber: String? = null,
-    val worker: RoleAndId? = null,
+    val worker: RoleAndId? = RoleAndId("agronom", 1),
 )
+
 
 class MainActivity : ComponentActivity() {
 
@@ -132,12 +140,12 @@ class MainActivity : ComponentActivity() {
         )
 
         val repo = AppRepository.get()
-    //        loadData(repo)
-    //        loadFields(repo)
-    //        loadTemplates(repo)
-    //        loadTasks(repo)
-    //        loadAgronom(repo)
-    //        loadWorker(repo)
+//            loadData(repo)
+//            loadFields(repo)
+//            loadTemplates(repo)
+//            loadTasks(repo)
+//            loadAgronom(repo)
+//            loadWorker(repo)
 
         setContent {
 
@@ -176,9 +184,9 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
 
-                            LaunchedEffect(null) {
-                                repo.sync()
-                            }
+//                            LaunchedEffect(null) {
+//                                repo.sync()
+//                            }
 
                             if (mainState.nfcSerialNumber != null) {
                                 LaunchedEffect(mainState) {

@@ -31,12 +31,12 @@ class AddTaskScreenViewModel(
     val uiState: StateFlow<AddTaskScreenUIState> = combine(
         selectableUIState,
         repository.getWorkMans(),
-        repository.getTemplates()
-    ) { selectable, workers, templates ->
+//        repository.getTemplates(),
+    ) { selectable, workers ->
 
         AddTaskScreenUIState(
             workers = workers,
-            templates = templates
+            templates = emptyList()
         )
 
     }.stateIn(
