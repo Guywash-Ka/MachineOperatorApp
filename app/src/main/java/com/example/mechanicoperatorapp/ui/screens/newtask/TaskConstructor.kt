@@ -32,6 +32,7 @@ fun TaskConstructor(
     template: TemplatesModel?,
     fields: List<FieldUIState>,
     selectOption: (Int, Int) -> Unit,
+    onSave: () -> Unit,
 ) {
     var showChooser by remember { mutableStateOf(false) }
     var listToChooseFrom by remember {
@@ -79,6 +80,12 @@ fun TaskConstructor(
                     }
                 }
 
+            }
+
+            Button(onClick = {
+                onSave()
+            }) {
+                Text("Сохранить")
             }
         }
         

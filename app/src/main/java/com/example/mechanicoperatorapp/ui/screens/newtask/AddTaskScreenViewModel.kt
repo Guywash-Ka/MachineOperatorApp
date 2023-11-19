@@ -1,5 +1,6 @@
 package com.example.mechanicoperatorapp.ui.screens.newtask
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 data class AddTaskScreenUIState(
     val workers: List<WorkManEntity> = emptyList(),
@@ -71,14 +73,36 @@ class AddTaskScreenViewModel(
 
             val list = it.fieldsIds.toMutableList()
 
-            list[index].copy(
+            Log.e("AddTask", "$list ($id)")
+
+            list[index] = list[index].copy(
                 second = id
             )
+
+            Log.e("AddTask", "$list")
 
             it.copy(
                 fieldsIds = list
             )
         }
+    }
+
+    fun onSave(templateId: Int) {
+
+        viewModelScope.launch {
+
+            Log.e("AddTask", "SENDING TASK!!!")
+
+            repository.addTask(
+                id = 1337,
+                agronomId = repository.getId().first(),
+                workerId = 1,
+                templateId = templateId,
+                tasks = selectableUIState.value.fieldsIds.map { it.second }
+            )
+
+        }
+
     }
 
     fun setFields(fieldsIds: List<Int>) {

@@ -53,7 +53,9 @@ fun TasksScreen(
                 )
                 .fillMaxWidth()
         ) {
-            Text(uiState.toString())
+
+            Text("Нухуя тасок нет покупаю пистолет")
+//            Text(uiState.toString())
 
             uiState.tasks.forEach {
                 Text("$it", modifier = Modifier.padding(8.dp))
