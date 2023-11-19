@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">MechanicOperatorApp</string>
+    <string name="app_name">Механизатор РСХБ</string>
+    <string name="messages_screen">Сообщения</string>
+    <string name="tasks_screen">Задания</string>
+    <string name="profile_screen">Профиль</string>
+    <string name="add_task_screen">Поставить задачу</string>
+    <string name="workers_list_screen">Рабочие</string>
 </resources>
