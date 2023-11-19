@@ -29,7 +29,7 @@ data class SelectableUIState(
 
 data class FieldUIState(
     val fieldName: String,
-    val options: List<String>,
+    val options: List<Pair<String, Int>>,
     val chosenOption: String? = null
 )
 
@@ -49,11 +49,14 @@ class AddTaskScreenViewModel(
         AddTaskScreenUIState(
             workers = workers,
             templates = templates,
-            fieldsUIState = selectable.fieldsIds.map { (id, _) ->
+            fieldsUIState = selectable.fieldsIds.map { (id, selectedId) ->
                 FieldUIState(
                     fieldName = repository.getFieldById(id).first().name,
                     options = repository.getFieldOptionsById(id).first(),
-                    chosenOption = repository.getFieldOptionsById(id).first()
+                    chosenOption = repository
+                        .getFieldOptionsById(id).first()
+                        .find { it.second == selectedId }?.first,
+                )
             }
         )
 
@@ -63,12 +66,25 @@ class AddTaskScreenViewModel(
         initialValue = AddTaskScreenUIState()
     )
 
-    fun selectOption()
+    fun selectOption(index: Int, id: Int) {
+        selectableUIState.update {
+
+            val list = it.fieldsIds.toMutableList()
+
+            list[index].copy(
+                second = id
+            )
+
+            it.copy(
+                fieldsIds = list
+            )
+        }
+    }
 
     fun setFields(fieldsIds: List<Int>) {
         selectableUIState.update {
             it.copy(
-                fieldsIds = fieldsIds
+                fieldsIds = fieldsIds.map { it to -1 }
             )
         }
     }

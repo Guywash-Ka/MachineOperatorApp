@@ -1,5 +1,6 @@
 package com.example.mechanicoperatorapp.ui.screens.newtask
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -29,11 +30,15 @@ import com.example.mechanicoperatorapp.data.dataClasses.TemplatesModel
 @Composable
 fun TaskConstructor(
     template: TemplatesModel?,
-    fields: List<FieldUIState>
+    fields: List<FieldUIState>,
+    selectOption: (Int, Int) -> Unit,
 ) {
     var showChooser by remember { mutableStateOf(false) }
     var listToChooseFrom by remember {
-        mutableStateOf(emptyList<String>())
+        mutableStateOf(emptyList<Pair<String, Int>>())
+    }
+    var optionIndex by remember {
+        mutableStateOf<Int?>(null)
     }
 
     Scaffold(
@@ -60,13 +65,18 @@ fun TaskConstructor(
                 )
                 .fillMaxWidth()
         ) {
-            fields.forEach {
+            fields.forEachIndexed { index, field ->
 
                 OutlinedButton(onClick = {
                     showChooser = true
-                    listToChooseFrom = it.options
+                    listToChooseFrom = field.options
+                    optionIndex = index
                 }) {
-                    Text(it.fieldName)
+                    if (field.chosenOption != null) {
+                        Text(field.chosenOption)
+                    } else {
+                        Text(field.fieldName)
+                    }
                 }
 
             }
@@ -79,8 +89,13 @@ fun TaskConstructor(
                 ) {
 
                     listToChooseFrom.forEachIndexed() { index, item ->
-                        Button(onClick = { /*TODO*/ }) {
-                            Text(item)
+                        Button(onClick = {
+
+                            Log.e("TaskConstructor", "HERE: ${optionIndex} ${item.second}")
+
+                            selectOption(optionIndex!!, item.second)
+                        }) {
+                            Text(item.first)
                         }
                     }
 

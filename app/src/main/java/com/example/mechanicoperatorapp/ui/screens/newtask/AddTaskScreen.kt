@@ -53,7 +53,10 @@ fun AddTaskScreen(
     if (showConstructor) {
         TaskConstructor(
             template = selectedTemplate,
-            fields = uiState.fieldsUIState
+            fields = uiState.fieldsUIState,
+            selectOption = { index, id ->
+                viewModel.selectOption(index, id)
+            }
         )
     } else {
 
