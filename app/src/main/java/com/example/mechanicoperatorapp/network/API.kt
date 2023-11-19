@@ -63,7 +63,7 @@ interface API {
     @GET("/getAll/Tasks")
     suspend fun getAllTasks(): Response<ResponseBody>
 
-    @GET("/getAll/Templates")
+    @GET("/getTemplatesRodya")
     suspend fun getAllTemplates(): Response<ResponseBody>
 
     @GET("/getAll/Transport")
