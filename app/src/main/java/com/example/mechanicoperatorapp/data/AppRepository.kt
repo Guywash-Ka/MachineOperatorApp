@@ -308,12 +308,12 @@ class AppRepository private constructor(
         }
         emit(resLocalData)
         if (isOnline(context)) {
-//            val remoteData = Gson().fromJson(API.getAllTemplates().body()!!.string(), Array<TemplatesEntity>::class.java).toList()
-//            val resRemoteData = mutableListOf<TemplatesModel>()
-//            remoteData.forEach { temp ->
-//                resRemoteData.add(TemplatesModel(temp.id, temp.title, parseRequiredFieldsIntoFieldsList(temp.taskFields)))
-//            }
-//            emit(resRemoteData)
+            val remoteData = Gson().fromJson(API.getAllTemplates().body()!!.string(), Array<TemplatesEntity>::class.java).toList()
+            val resRemoteData = mutableListOf<TemplatesModel>()
+            remoteData.forEach { temp ->
+                resRemoteData.add(TemplatesModel(temp.id, temp.title, parseRequiredFieldsIntoFieldsList(temp.taskFields)))
+            }
+            emit(resRemoteData)
         }
     }
 
