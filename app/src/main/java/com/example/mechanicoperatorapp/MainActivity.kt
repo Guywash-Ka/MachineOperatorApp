@@ -98,7 +98,7 @@ private data class MainActivityState(
     val showSplash: Boolean = false,
     val isLoggedIn: Boolean = true,
     val nfcSerialNumber: String? = null,
-    val worker: RoleAndId? = RoleAndId("agronom", 1),
+    val worker: RoleAndId? = RoleAndId(1, "agronom"),
 )
 
 

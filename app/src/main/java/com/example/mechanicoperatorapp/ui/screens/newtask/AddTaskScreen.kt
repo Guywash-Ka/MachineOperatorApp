@@ -52,7 +52,8 @@ fun AddTaskScreen(
 
     if (showConstructor) {
         TaskConstructor(
-            template = selectedTemplate
+            template = selectedTemplate,
+            fields = uiState.fieldsUIState
         )
     } else {
 
@@ -100,6 +101,8 @@ fun AddTaskScreen(
                             OutlinedButton(
                                 onClick = {
                                     selectedTemplate = template
+//                                    viewModel.setFields(template.taskFields)
+                                    viewModel.setFields(listOf(1, 2, 3))
                                     showBottomSheet = false
                                     showConstructor = true
                                 },
