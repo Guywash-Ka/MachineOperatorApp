@@ -206,8 +206,8 @@ class AppRepository private constructor(
 
     suspend fun addWater(id: Int, name: String) = database.infoClassesDao().addWater(WaterEntity(id, name))
 
-    suspend fun addAgronom(id: Int, name: String, password: String, nfc: String, salary: Float) {
-        database.agronomDao().addAgronom(AgronomEntity(id, name, password, nfc, salary))
+    suspend fun addAgronom(id: Int, name: String, password: String, nfc: String, salary: Float, updateTime: Long) {
+        database.agronomDao().addAgronom(AgronomEntity(id, name, password, nfc, salary, updateTime))
         if (isOnline(context)) {
             try {
                 API.saveAgronom(name, password, nfc)
@@ -217,8 +217,8 @@ class AppRepository private constructor(
         }
     }
 
-    suspend fun addWorker(id: Int, name: String, password: String, nfc: String, salary: Float) {
-        database.workerDao().addWorker(WorkerEntity(id, name, password, nfc, salary))
+    suspend fun addWorker(id: Int, name: String, password: String, nfc: String, salary: Float, updateTime: Long) {
+        database.workerDao().addWorker(WorkerEntity(id, name, password, nfc, salary, updateTime))
         if (isOnline(context)) {
             try {
                 API.saveWorker(name, password, nfc)

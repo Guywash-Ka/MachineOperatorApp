@@ -9,7 +9,8 @@ data class WorkerEntity(
     val name: String,
     val password: String,
     val nfc: String,
-    val salary: Float
+    val salary: Float,
+    val updateTime: Long
 )
 
 data class WorkerNetwork(
@@ -17,7 +18,8 @@ data class WorkerNetwork(
     val name: String,
     val password: String,
     val nfc: String,
-    val salary: Float
+    val salary: Float,
+    val updateTime: Long
 )
 
 data class Worker(
@@ -25,7 +27,8 @@ data class Worker(
     val name: String,
     val password: String,
     val nfc: String,
-    val salary: Float
+    val salary: Float,
+    val updateTime: Long
 )
 
 fun WorkerNetwork.asEntity() = WorkerEntity(
@@ -33,7 +36,8 @@ fun WorkerNetwork.asEntity() = WorkerEntity(
     name = name,
     password = password,
     nfc = nfc,
-    salary = salary
+    salary = salary,
+    updateTime = updateTime
 )
 
 fun WorkerEntity.asExternalModel() = Worker(
@@ -41,5 +45,6 @@ fun WorkerEntity.asExternalModel() = Worker(
     name = name,
     password = password,
     nfc = nfc,
-    salary = salary
+    salary = salary,
+    updateTime = updateTime
 )

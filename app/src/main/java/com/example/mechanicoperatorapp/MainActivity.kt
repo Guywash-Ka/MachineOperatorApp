@@ -465,22 +465,22 @@ fun loadTasks(repo: AppRepository) {
     }
 }
 
-fun loadAgronom(repo: AppRepository) {
-    GlobalScope.launch {
-        repo.addAgronom(1, "Иванов Петр", "1234567", "11:11:11:11", 2000f)
-        repo.addAgronom(2, "Белкин Никита", "qwerty", "12:11:11:11", 2000f)
-        repo.addAgronom(3, "Лазарев Сергей", "admin", "13:11:11:11", 2000f)
-        repo.addAgronom(4, "Ракитин Егор", "login", "14:11:11:11", 2000f)
-        repo.addAgronom(5, "Мирон Федоров", "password", "15:11:11:11", 2000f)
-    }
-}
-
-fun loadWorker(repo: AppRepository) {
-    GlobalScope.launch {
-        repo.addWorker(1, "Смирнов Александр" ,"0987", "16:11:11:11", 1000f)
-        repo.addWorker(2, "Курыкин Владимир" ,"0988", "17:11:11:11", 1000f)
-        repo.addWorker(3, "Петросян Оганес" ,"0989", "18:11:11:11", 1000f)
-        repo.addWorker(4, "Лежнина Елена" ,"0997", "19:11:11:11", 1000f)
-        repo.addWorker(5, "Кривошеин Александр" ,"0998", "20:11:11:11", 1000f)
-    }
-}
+//fun loadAgronom(repo: AppRepository) {
+//    GlobalScope.launch {
+//        repo.addAgronom(1, "Иванов Петр", "1234567", "11:11:11:11", 2000f)
+//        repo.addAgronom(2, "Белкин Никита", "qwerty", "12:11:11:11", 2000f)
+//        repo.addAgronom(3, "Лазарев Сергей", "admin", "13:11:11:11", 2000f)
+//        repo.addAgronom(4, "Ракитин Егор", "login", "14:11:11:11", 2000f)
+//        repo.addAgronom(5, "Мирон Федоров", "password", "15:11:11:11", 2000f)
+//    }
+//}
+//
+//fun loadWorker(repo: AppRepository) {
+//    GlobalScope.launch {
+//        repo.addWorker(1, "Смирнов Александр" ,"0987", "16:11:11:11", 1000f)
+//        repo.addWorker(2, "Курыкин Владимир" ,"0988", "17:11:11:11", 1000f)
+//        repo.addWorker(3, "Петросян Оганес" ,"0989", "18:11:11:11", 1000f)
+//        repo.addWorker(4, "Лежнина Елена" ,"0997", "19:11:11:11", 1000f)
+//        repo.addWorker(5, "Кривошеин Александр" ,"0998", "20:11:11:11", 1000f)
+//    }
+//}

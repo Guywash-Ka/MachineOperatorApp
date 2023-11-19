@@ -9,7 +9,8 @@ data class AgronomEntity(
     val name: String,
     val password: String,
     val nfc: String,
-    val salary: Float
+    val salary: Float,
+    val updateTime: Long
 )
 
 data class AgronomNetwork(
@@ -17,7 +18,8 @@ data class AgronomNetwork(
     val name: String,
     val password: String,
     val nfc: String,
-    val salary: Float
+    val salary: Float,
+    val updateTime: Long
 )
 
 data class Agronom(
@@ -25,7 +27,8 @@ data class Agronom(
     val name: String,
     val password: String,
     val nfc: String,
-    val salary: Float
+    val salary: Float,
+    val updateTime: Long
 )
 
 fun AgronomNetwork.asEntity() = AgronomEntity(
@@ -33,7 +36,8 @@ fun AgronomNetwork.asEntity() = AgronomEntity(
     name = name,
     password = password,
     nfc = nfc,
-    salary = salary
+    salary = salary,
+    updateTime = updateTime
 )
 
 fun AgronomEntity.asExternalModel() = Agronom(
@@ -41,5 +45,6 @@ fun AgronomEntity.asExternalModel() = Agronom(
     name = name,
     password = password,
     nfc = nfc,
-    salary = salary
+    salary = salary,
+    updateTime = updateTime
 )
