@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.mechanicoperatorapp.data.dataClasses.Agregat
 import com.example.mechanicoperatorapp.data.dataClasses.AgregatEntity
 import com.example.mechanicoperatorapp.data.dataClasses.DepthEntity
@@ -42,26 +43,51 @@ interface InfoClassesDao {
     suspend fun addWater(water: WaterEntity)
 
     @Query("SELECT * FROM Operation")
-    fun getOperations(): List<OperationEntity>
+    suspend fun getOperations(): List<OperationEntity>
 
     @Query("SELECT * FROM Water")
-    fun getWaters(): List<WaterEntity>
+    suspend fun getWaters(): List<WaterEntity>
 
     @Query("SELECT * FROM FarmField")
-    fun getFarmFields(): List<FarmFieldEntity>
+    suspend fun getFarmFields(): List<FarmFieldEntity>
 
     @Query("SELECT * FROM WorkMan")
-    fun getWorkMans(): List<WorkManEntity>
+    suspend fun getWorkMans(): List<WorkManEntity>
 
     @Query("SELECT * FROM Transport")
-    fun getTransports(): List<TransportEntity>
+    suspend fun getTransports(): List<TransportEntity>
 
     @Query("SELECT * FROM Agregat")
-    fun getAgregats(): List<AgregatEntity>
+    suspend fun getAgregats(): List<AgregatEntity>
 
     @Query("SELECT * FROM Depth")
-    fun getDepths(): List<DepthEntity>
+    suspend fun getDepths(): List<DepthEntity>
 
     @Query("SELECT * FROM Speed")
-    fun getSpeeds(): List<SpeedEntity>
+    suspend fun getSpeeds(): List<SpeedEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateOperations(operation: OperationEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateWaters(water: WaterEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateFarmFields(farmField: FarmFieldEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateWorkMans(workMan: WorkManEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateTransports(transport: TransportEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateAgregats(agregat: AgregatEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateDepths(depth: DepthEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateSpeeds(speed: SpeedEntity)
+
 }

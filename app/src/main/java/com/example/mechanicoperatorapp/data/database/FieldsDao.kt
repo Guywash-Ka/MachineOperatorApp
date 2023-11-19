@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.mechanicoperatorapp.data.dataClasses.Fields
 import com.example.mechanicoperatorapp.data.dataClasses.FieldsEntity
 import kotlinx.coroutines.flow.Flow
@@ -20,8 +21,11 @@ interface FieldsDao {
     fun getFieldByName(name: String): Flow<Fields>
 
     @Query("SELECT * FROM Fields")
-    fun getAllFields(): List<Fields>
+    suspend fun getAllFields(): List<Fields>
 
     @Query("SELECT name FROM Fields WHERE id=:id")
     fun getFieldNameById(id: Int): Flow<String>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateField(field: FieldsEntity)
 }

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.mechanicoperatorapp.data.dataClasses.Templates
 import com.example.mechanicoperatorapp.data.dataClasses.TemplatesEntity
 import kotlinx.coroutines.flow.Flow
@@ -20,8 +21,11 @@ interface TemplatesDao {
     fun getTemplateByTitle(title: String): Flow<Templates>
 
     @Query("SELECT * FROM Templates")
-    fun getAllTemplates(): List<Templates>
+    suspend fun getAllTemplates(): List<Templates>
 
     @Query("SELECT id FROM Templates")
     fun getAllIds(): Flow<List<Int>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateTemplate(template: TemplatesEntity)
 }

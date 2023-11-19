@@ -9,23 +9,23 @@ import androidx.room.TypeConverters
 data class TemplatesEntity (
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
-    val requiredFields: List<Int>,
+    val taskFields: List<Int>,
 )
 
 data class TemplatesNetwork(
     val id: Int,
     val title: String,
-    val requiredFields: String,
+    val taskFields: String,
 )
 
 data class Templates(
     val id: Int,
     val title: String,
-    val requiredFields: List<Int>,
+    val taskFields: List<Int>,
 )
 
 data class TemplatesModel(
     val id: Int,
     val title: String,
-    val requiredFields: List<String>
+    val taskFields: List<String>
 )
