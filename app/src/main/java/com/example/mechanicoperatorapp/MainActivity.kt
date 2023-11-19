@@ -32,6 +32,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -168,6 +169,9 @@ class MainActivity : ComponentActivity() {
                             Column() {
                                 Text("LOGIN SCREEN")
                                 cor.launch { repo.sync() }
+                                val state = repo.getAllTasksModels().collectAsState(initial = listOf())
+                                Log.i("MYTAG", state.value.toString())
+//                                repo.getAllTasksModels().
                                 if (mainState.nfcSerialNumber != null) {
                                     LaunchedEffect(mainState) {
 

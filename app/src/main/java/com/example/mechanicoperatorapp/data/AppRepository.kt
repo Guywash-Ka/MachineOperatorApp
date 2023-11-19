@@ -374,6 +374,16 @@ class AppRepository private constructor(
         return try { API.getLastTaskId().body()!!.string().toInt() } catch (e: Exception) { -1 }
     }
 
+    fun getAllTasksModels(): Flow<List<TasksModel>> {
+        val resList = mutableListOf<TasksModel>()
+        database.tasksDao().getAllTasksModel().map { taskList ->
+            taskList.forEach { task ->
+                resList.add(TasksModel(task.id, task.agronomName, task.workerName, task.templateName, parseRequiredFieldsIntoFieldsList(task.valueList)))
+            }
+        }
+        return flowOf(resList)
+    }
+
     fun getAgronomNameById(id: Int) = database.agronomDao().getAgronomNameById(id)
     fun getWorkerNameById(id: Int) = database.workerDao().getWorkerNameById(id)
 

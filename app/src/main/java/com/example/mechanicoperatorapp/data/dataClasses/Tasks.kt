@@ -37,3 +37,11 @@ data class TasksModel(
     val templateName: String,
     val valueList: List<String>
 )
+
+data class TasksSQLModel(
+    val id: Int,
+    val agronomName: String,
+    val workerName: String,
+    val templateName: String,
+    val valueList: List<Int>
+)
