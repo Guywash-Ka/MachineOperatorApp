@@ -14,10 +14,16 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountBox
+import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +33,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -35,10 +42,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -305,9 +316,78 @@ class MainActivity : ComponentActivity() {
                                     startDestination = if (mainState.worker!!.role == "worker") Screen.Tasks.route else Screen.AddTask.route,
                                     Modifier.padding(innerPadding)
                                 ) {
-                                    composable(Screen.WorkerMessages.route) { Text("MESSAGES SCREEN") }
+                                    composable(Screen.WorkerMessages.route) {
+                                        Scaffold(
+                                            topBar = {
+                                                TopAppBar(
+                                                    title = {
+                                                        Text(
+                                                            text = "Сообщения",
+                                                            fontSize = 24.sp,
+                                                            fontWeight = FontWeight.Bold
+                                                        )
+                                                    }
+                                                )
+                                            }
+                                        ) { pv ->
+                                            Column(
+                                                modifier = Modifier
+                                                    .padding(
+                                                        bottom = pv.calculateBottomPadding(),
+                                                        top = pv.calculateTopPadding(),
+                                                        start = pv.calculateStartPadding(
+                                                            LayoutDirection.Ltr),
+                                                        end = pv.calculateEndPadding(LayoutDirection.Ltr)
+                                                    )
+                                                    .fillMaxWidth()
+                                            ) {
+
+                                                Row(
+                                                    verticalAlignment = Alignment.CenterVertically,
+                                                    modifier = Modifier.fillMaxWidth().padding(8.dp)
+                                                ) {
+                                                    Icon(Icons.Rounded.AccountCircle, contentDescription = null, modifier = Modifier.size(48.dp).padding(horizontal = 8.dp))
+
+                                                    Column {
+                                                        Text("SVTV NEWS")
+                                                        Text("Independent libertarian mass media", fontSize = 8.sp)
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                    }
                                     composable(Screen.Tasks.route) { TasksScreen() }
-                                    composable(Screen.WorkerProfile.route) { Text("PROFILE SCREEN") }
+                                    composable(Screen.WorkerProfile.route) {
+                                        Scaffold(
+                                            topBar = {
+                                                TopAppBar(
+                                                    title = {
+                                                        Text(
+                                                            text = "Профиль",
+                                                            fontSize = 24.sp,
+                                                            fontWeight = FontWeight.Bold
+                                                        )
+                                                    }
+                                                )
+                                            }
+                                        ) { pv ->
+                                            Column(
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                                modifier = Modifier
+                                                    .padding(
+                                                        bottom = pv.calculateBottomPadding(),
+                                                        top = pv.calculateTopPadding(),
+                                                        start = pv.calculateStartPadding(LayoutDirection.Ltr),
+                                                        end = pv.calculateEndPadding(LayoutDirection.Ltr)
+                                                    )
+                                                    .fillMaxWidth()
+                                            ) {
+                                                Icon(Icons.Rounded.AccountCircle, null, modifier = Modifier.size(128.dp).padding(32.dp))
+                                                Text("Александр Пушной")
+                                            }
+                                        }
+                                    }
                                     composable(Screen.AddTask.route) { AddTaskScreen() }
                                     composable(Screen.AgronomistMessages.route) { AgronomistMessagesScreen() }
                                     composable(Screen.AgronomistProfile.route) { AgronomistProfileScreen() }

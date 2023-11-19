@@ -57,7 +57,11 @@ fun AddTaskScreen(
             selectOption = { index, id ->
                 viewModel.selectOption(index, id)
             },
-            onSave = { viewModel.onSave(selectedTemplate!!.id) },
+            onSave = {
+                viewModel.onSave(selectedTemplate!!.id)
+                showConstructor = false
+                selectedTemplate = null
+            },
         )
     } else {
 
@@ -91,6 +95,12 @@ fun AddTaskScreen(
                     .fillMaxWidth()
             ) {
 
+                Text(
+                    text = "Статистика по задачам",
+                    fontWeight = FontWeight.Bold,
+                )
+
+                Text("Всего: 276")
 
             }
 
