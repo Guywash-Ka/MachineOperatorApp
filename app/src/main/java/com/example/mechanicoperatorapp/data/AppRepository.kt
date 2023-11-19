@@ -300,6 +300,34 @@ class AppRepository private constructor(
         }
     }
 
+    fun getMap() {
+        val resMap = mutableMapOf<Int, List<String>>()
+        getFields().map { fieldList ->
+            fieldList.forEach { field ->
+                resMap[field.id] = when (field.name) {
+                    "Агрегат" -> database.infoClassesDao().getAgregats().map { it.name }
+                    "Фермерское Поле" -> database.infoClassesDao().getFarmFields().map { it.name }
+                    "Операция" -> database.infoClassesDao().getOperations().map { it.name }
+                    "Транспорт" -> database.infoClassesDao().getTransports().map { it.name }
+                    "Раствор" -> database.infoClassesDao().getWaters().map { it.name }
+                    else -> listOf("")
+                }
+            }
+        }
+    }
+
+    fun getFieldOptionsById(id: Int) =
+        getFieldNameById(id).map { name ->
+            when (name) {
+                "Агрегат" -> database.infoClassesDao().getAgregats().map { it.name }
+                "Фермерское Поле" -> database.infoClassesDao().getFarmFields().map { it.name }
+                "Операция" -> database.infoClassesDao().getOperations().map { it.name }
+                "Транспорт" -> database.infoClassesDao().getTransports().map { it.name }
+                "Раствор" -> database.infoClassesDao().getWaters().map { it.name }
+                else -> listOf("")
+            }
+        }
+
     fun getTemplates() = flow {
         val resLocalData = mutableListOf<TemplatesModel>()
         val localData = database.templatesDao().getAllTemplates()
