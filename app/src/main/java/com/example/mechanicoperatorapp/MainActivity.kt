@@ -1,6 +1,5 @@
 package com.example.mechanicoperatorapp
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -12,13 +11,11 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,13 +30,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -55,16 +53,18 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import com.example.mechanicoperatorapp.data.AppRepository
 import com.example.mechanicoperatorapp.data.dataClasses.RoleAndId
-import com.example.mechanicoperatorapp.data.dataClasses.WorkerEntity
+import com.example.mechanicoperatorapp.ui.screens.LoginScreen
 import com.example.mechanicoperatorapp.ui.theme.MechanicOperatorAppTheme
+import com.example.mechanicoperatorapp.ui.screens.agronomistmessages.AgronomistMessagesScreen
+import com.example.mechanicoperatorapp.ui.screens.agronomprofile.AgronomistProfileScreen
+import com.example.mechanicoperatorapp.ui.screens.newtask.AddTaskScreen
+import com.example.mechanicoperatorapp.ui.screens.tasks.TasksScreen
+import com.example.mechanicoperatorapp.ui.screens.workerslist.WorkersListScreen
 import com.example.mechanicoperatorapp.worker.DownloadWorker
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.minutes
@@ -77,10 +77,13 @@ class NoRippleInteractionSource : MutableInteractionSource {
 }
 
 sealed class Screen(val route: String, @StringRes val name: Int) {
-    object Messages : Screen("rides", R.string.messages_screen)
-    object Tasks : Screen("main", R.string.tasks_screen)
-    object Profile : Screen("profile", R.string.profile_screen)
+    object WorkerMessages : Screen("worker-messages", R.string.messages_screen)
+    object Tasks : Screen("tasks", R.string.tasks_screen)
+    object WorkerProfile : Screen("worker-profile", R.string.profile_screen)
     object AddTask : Screen("add-task", R.string.add_task_screen)
+    object AgronomistMessages : Screen("agronomist-messages", R.string.messages_screen)
+    object AgronomistProfile : Screen("agronomist-profile", R.string.profile_screen)
+    object WorkersList : Screen("workers-list", R.string.workers_list_screen)
 }
 
 private data class MainActivityState(
@@ -89,14 +92,6 @@ private data class MainActivityState(
     val nfcSerialNumber: String? = null,
     val worker: RoleAndId? = null,
 )
-
-//private data class MainActivityState(
-//    val showSplash: Boolean = false,
-//    val isLoggedIn: Boolean = true,
-//    val nfcSerialNumber: String? = null,
-//    val worker: RoleAndId? = RoleAndId("worker", 1),
-//)
-
 
 class MainActivity : ComponentActivity() {
 
@@ -107,10 +102,25 @@ class MainActivity : ComponentActivity() {
     )
 
 
-    @SuppressLint("CoroutineCreationDuringComposition")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Worker start
+        val channel =
+            NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_DEFAULT)
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
+
+        val downloadWorkRequest: WorkRequest = PeriodicWorkRequest.Builder(DownloadWorker::class.java, 15.minutes.toJavaDuration())
+            .setConstraints(Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build())
+            .build()
+
+        WorkManager.getInstance(this).enqueue(downloadWorkRequest)
+
+        // Worker end
 
         nfcPendingIntent = PendingIntent.getActivity(
             this,
@@ -122,37 +132,23 @@ class MainActivity : ComponentActivity() {
         )
 
         val repo = AppRepository.get()
-//        loadData(repo)
-//        loadFields(repo)
-//        loadTemplates(repo)
-//        loadTasks(repo)
-//        loadAgronom(repo)
-//        loadWorker(repo)
-
-        // Worker start
-        val channel =
-            NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_DEFAULT)
-        val notificationManager = getSystemService(NotificationManager::class.java)
-        notificationManager.createNotificationChannel(channel)
-
-        val downloadWorkRequest: WorkRequest = PeriodicWorkRequest.Builder(DownloadWorker::class.java, 15.minutes.toJavaDuration())
-            .setConstraints(Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build())
-            .build()
-        WorkManager.getInstance(this).enqueue(downloadWorkRequest)
-
-        // Worker end
+    //        loadData(repo)
+    //        loadFields(repo)
+    //        loadTemplates(repo)
+    //        loadTasks(repo)
+    //        loadAgronom(repo)
+    //        loadWorker(repo)
 
         setContent {
 
             val mainState by mainStateFlow.collectAsStateWithLifecycle()
 
             val navController = rememberNavController()
+            val scope = rememberCoroutineScope()
 
+            var loginShowTryAgain by remember { mutableStateOf(false) }
 
             MechanicOperatorAppTheme {
-                val cor = rememberCoroutineScope()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -165,19 +161,35 @@ class MainActivity : ComponentActivity() {
 
                         !mainState.isLoggedIn -> {
 
-                            Column() {
-                                Text("LOGIN SCREEN")
-                                cor.launch { repo.sync() }
-                                if (mainState.nfcSerialNumber != null) {
-                                    LaunchedEffect(mainState) {
-
-                                        Log.e("MainActivity", "NFC = ${mainState.nfcSerialNumber}")
-                                        val worker = repo.getProfileByNfc(mainState.nfcSerialNumber!!)
+                            LoginScreen(
+                                showTryAgain = loginShowTryAgain,
+                                onSendPassword = { password ->
+                                    scope.launch {
+                                        val worker = repo.getProfileByPassword(password)
 
                                         if (worker.id != -1) {
                                             mainStateFlow.value = MainActivityState(false, true, null, worker)
+                                        } else {
+                                            loginShowTryAgain = true
                                         }
+                                    }
+                                }
+                            )
 
+                            LaunchedEffect(null) {
+                                repo.sync()
+                            }
+
+                            if (mainState.nfcSerialNumber != null) {
+                                LaunchedEffect(mainState) {
+
+                                    Log.e("MainActivity", "NFC = ${mainState.nfcSerialNumber}")
+                                    val worker = repo.getProfileByNfc(mainState.nfcSerialNumber!!)
+
+                                    if (worker.id != -1) {
+                                        mainStateFlow.value = MainActivityState(false, true, null, worker)
+                                    } else {
+                                        loginShowTryAgain = true
                                     }
                                 }
                             }
@@ -202,12 +214,15 @@ class MainActivity : ComponentActivity() {
                                         // TODO: DIVIDE BY TYPES
                                         val screens = when (mainState.worker!!.role) {
                                             "worker" -> listOf(
-                                                Screen.Messages,
+                                                Screen.WorkerMessages,
                                                 Screen.Tasks,
-                                                Screen.Profile
+                                                Screen.WorkerProfile
                                             )
                                             "agronom" -> listOf(
-                                                Screen.AddTask
+                                                Screen.WorkersList,
+                                                Screen.AddTask,
+                                                Screen.AgronomistMessages,
+                                                Screen.AgronomistProfile,
                                             )
                                             else -> emptyList()
                                         }
@@ -282,10 +297,13 @@ class MainActivity : ComponentActivity() {
                                     startDestination = if (mainState.worker!!.role == "worker") Screen.Tasks.route else Screen.AddTask.route,
                                     Modifier.padding(innerPadding)
                                 ) {
-                                    composable(Screen.Messages.route) { Text("MESSAGES SCREEN") }
-                                    composable(Screen.Tasks.route) { Text("TASKS SCREEN") }
-                                    composable(Screen.Profile.route) { Text("PROFILE SCREEN") }
-                                    composable(Screen.AddTask.route) { Text("ADD TASK SCREEN") }
+                                    composable(Screen.WorkerMessages.route) { Text("MESSAGES SCREEN") }
+                                    composable(Screen.Tasks.route) { TasksScreen() }
+                                    composable(Screen.WorkerProfile.route) { Text("PROFILE SCREEN") }
+                                    composable(Screen.AddTask.route) { AddTaskScreen() }
+                                    composable(Screen.AgronomistMessages.route) { AgronomistMessagesScreen() }
+                                    composable(Screen.AgronomistProfile.route) { AgronomistProfileScreen() }
+                                    composable(Screen.WorkersList.route) { WorkersListScreen() }
                                 }
 
                             }

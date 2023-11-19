@@ -4,4 +4,5 @@
     <string name="tasks_screen">Задания</string>
     <string name="profile_screen">Профиль</string>
     <string name="add_task_screen">Поставить задачу</string>
+    <string name="workers_list_screen">Рабочие</string>
 </resources>
