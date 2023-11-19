@@ -1,5 +1,6 @@
 package com.example.mechanicoperatorapp
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -32,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -105,25 +107,10 @@ class MainActivity : ComponentActivity() {
     )
 
 
+    @SuppressLint("CoroutineCreationDuringComposition")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Worker start
-        val channel =
-            NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_DEFAULT)
-        val notificationManager = getSystemService(NotificationManager::class.java)
-        notificationManager.createNotificationChannel(channel)
-
-        val downloadWorkRequest: WorkRequest = PeriodicWorkRequest.Builder(DownloadWorker::class.java, 15.minutes.toJavaDuration())
-            .setConstraints(Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .build())
-            .build()
-
-        WorkManager.getInstance(this).enqueue(downloadWorkRequest)
-
-        // Worker end
 
         nfcPendingIntent = PendingIntent.getActivity(
             this,
@@ -135,12 +122,27 @@ class MainActivity : ComponentActivity() {
         )
 
         val repo = AppRepository.get()
-        loadData(repo)
-        loadFields(repo)
-        loadTemplates(repo)
-        loadTasks(repo)
-        loadAgronom(repo)
-        loadWorker(repo)
+//        loadData(repo)
+//        loadFields(repo)
+//        loadTemplates(repo)
+//        loadTasks(repo)
+//        loadAgronom(repo)
+//        loadWorker(repo)
+
+        // Worker start
+        val channel =
+            NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_DEFAULT)
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
+
+        val downloadWorkRequest: WorkRequest = PeriodicWorkRequest.Builder(DownloadWorker::class.java, 15.minutes.toJavaDuration())
+            .setConstraints(Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build())
+            .build()
+        WorkManager.getInstance(this).enqueue(downloadWorkRequest)
+
+        // Worker end
 
         setContent {
 
@@ -150,6 +152,7 @@ class MainActivity : ComponentActivity() {
 
 
             MechanicOperatorAppTheme {
+                val cor = rememberCoroutineScope()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -164,7 +167,7 @@ class MainActivity : ComponentActivity() {
 
                             Column() {
                                 Text("LOGIN SCREEN")
-
+                                cor.launch { repo.sync() }
                                 if (mainState.nfcSerialNumber != null) {
                                     LaunchedEffect(mainState) {
 

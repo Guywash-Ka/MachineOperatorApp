@@ -66,28 +66,28 @@ interface InfoClassesDao {
     @Query("SELECT * FROM Speed")
     suspend fun getSpeeds(): List<SpeedEntity>
 
-    @Update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateOperations(operation: OperationEntity)
 
-    @Update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateWaters(water: WaterEntity)
 
-    @Update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateFarmFields(farmField: FarmFieldEntity)
 
-    @Update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateWorkMans(workMan: WorkManEntity)
 
-    @Update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateTransports(transport: TransportEntity)
 
-    @Update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateAgregats(agregat: AgregatEntity)
 
-    @Update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateDepths(depth: DepthEntity)
 
-    @Update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateSpeeds(speed: SpeedEntity)
 
 }

@@ -6,23 +6,23 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Agronom")
 data class AgronomEntity(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    val name: String,
-    val password: String,
-    val nfc: String
+    val name: String?,
+    val password: String?,
+    val nfc: String?
 )
 
 data class AgronomNetwork(
     val id: Int,
-    val name: String,
-    val password: String,
-    val nfc: String
+    val name: String?,
+    val password: String?,
+    val nfc: String?
 )
 
 data class Agronom(
     val id: Int,
-    val name: String,
-    val password: String,
-    val nfc: String
+    val name: String?,
+    val password: String?,
+    val nfc: String?
 )
 
 fun AgronomNetwork.asEntity() = AgronomEntity(

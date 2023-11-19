@@ -26,6 +26,6 @@ interface TemplatesDao {
     @Query("SELECT id FROM Templates")
     fun getAllIds(): Flow<List<Int>>
 
-    @Update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateTemplate(template: TemplatesEntity)
 }

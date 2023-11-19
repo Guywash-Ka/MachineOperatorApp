@@ -26,6 +26,6 @@ interface FieldsDao {
     @Query("SELECT name FROM Fields WHERE id=:id")
     fun getFieldNameById(id: Int): Flow<String>
 
-    @Update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateField(field: FieldsEntity)
 }
