@@ -91,7 +91,7 @@ class AppRepository private constructor(
             res
         } catch (e: Exception) {
             Log.e("REPO", "${response.code()}")
-            RoleAndId("", -1)
+            RoleAndId(-1, "")
         }
     }
 
@@ -108,7 +108,7 @@ class AppRepository private constructor(
             res
         } catch (e: Exception) {
             Log.e("REPO", "${response.code()}")
-            RoleAndId("", -1)
+            RoleAndId(-1, "")
         }
     }
 
@@ -206,8 +206,8 @@ class AppRepository private constructor(
 
     suspend fun addWater(id: Int, name: String) = database.infoClassesDao().addWater(WaterEntity(id, name))
 
-    suspend fun addAgronom(id: Int, name: String, password: String, nfc: String) {
-        database.agronomDao().addAgronom(AgronomEntity(id, name, password, nfc))
+    suspend fun addAgronom(id: Int, name: String, password: String, nfc: String, salary: Float) {
+        database.agronomDao().addAgronom(AgronomEntity(id, name, password, nfc, salary))
         if (isOnline(context)) {
             try {
                 API.saveAgronom(name, password, nfc)
@@ -217,8 +217,8 @@ class AppRepository private constructor(
         }
     }
 
-    suspend fun addWorker(id: Int, name: String, password: String, nfc: String) {
-        database.workerDao().addWorker(WorkerEntity(id, name, password, nfc))
+    suspend fun addWorker(id: Int, name: String, password: String, nfc: String, salary: Float) {
+        database.workerDao().addWorker(WorkerEntity(id, name, password, nfc, salary))
         if (isOnline(context)) {
             try {
                 API.saveWorker(name, password, nfc)
@@ -308,12 +308,12 @@ class AppRepository private constructor(
         }
         emit(resLocalData)
         if (isOnline(context)) {
-            val remoteData = Gson().fromJson(API.getAllTemplates().body()!!.string(), Array<Templates>::class.java).toList()
-            val resRemoteData = mutableListOf<TemplatesModel>()
-            remoteData.forEach { temp ->
-                resRemoteData.add(TemplatesModel(temp.id, temp.title, parseRequiredFieldsIntoFieldsList(temp.taskFields)))
-            }
-            emit(resRemoteData)
+//            val remoteData = Gson().fromJson(API.getAllTemplates().body()!!.string(), Array<TemplatesEntity>::class.java).toList()
+//            val resRemoteData = mutableListOf<TemplatesModel>()
+//            remoteData.forEach { temp ->
+//                resRemoteData.add(TemplatesModel(temp.id, temp.title, parseRequiredFieldsIntoFieldsList(temp.taskFields)))
+//            }
+//            emit(resRemoteData)
         }
     }
 
@@ -373,6 +373,8 @@ class AppRepository private constructor(
     suspend fun getLastTaskId(): Int {
         return try { API.getLastTaskId().body()!!.string().toInt() } catch (e: Exception) { -1 }
     }
+
+    fun getAllTasksModels() = database.tasksDao().getAllTasksModel()
 
     fun getAgronomNameById(id: Int) = database.agronomDao().getAgronomNameById(id)
     fun getWorkerNameById(id: Int) = database.workerDao().getWorkerNameById(id)

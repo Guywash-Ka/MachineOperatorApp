@@ -29,6 +29,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -166,7 +167,6 @@ class MainActivity : ComponentActivity() {
                                 onSendPassword = { password ->
                                     scope.launch {
                                         val worker = repo.getProfileByPassword(password)
-
                                         if (worker.id != -1) {
                                             mainStateFlow.value = MainActivityState(false, true, null, worker)
                                         } else {
@@ -459,20 +459,20 @@ fun loadTasks(repo: AppRepository) {
 
 fun loadAgronom(repo: AppRepository) {
     GlobalScope.launch {
-        repo.addAgronom(1, "Иванов Петр", "1234567", "11:11:11:11")
-        repo.addAgronom(2, "Белкин Никита", "qwerty", "12:11:11:11")
-        repo.addAgronom(3, "Лазарев Сергей", "admin", "13:11:11:11")
-        repo.addAgronom(4, "Ракитин Егор", "login", "14:11:11:11")
-        repo.addAgronom(5, "Мирон Федоров", "password", "15:11:11:11")
+        repo.addAgronom(1, "Иванов Петр", "1234567", "11:11:11:11", 2000f)
+        repo.addAgronom(2, "Белкин Никита", "qwerty", "12:11:11:11", 2000f)
+        repo.addAgronom(3, "Лазарев Сергей", "admin", "13:11:11:11", 2000f)
+        repo.addAgronom(4, "Ракитин Егор", "login", "14:11:11:11", 2000f)
+        repo.addAgronom(5, "Мирон Федоров", "password", "15:11:11:11", 2000f)
     }
 }
 
 fun loadWorker(repo: AppRepository) {
     GlobalScope.launch {
-        repo.addWorker(1, "Смирнов Александр" ,"0987", "16:11:11:11")
-        repo.addWorker(2, "Курыкин Владимир" ,"0988", "17:11:11:11")
-        repo.addWorker(3, "Петросян Оганес" ,"0989", "18:11:11:11")
-        repo.addWorker(4, "Лежнина Елена" ,"0997", "19:11:11:11")
-        repo.addWorker(5, "Кривошеин Александр" ,"0998", "20:11:11:11")
+        repo.addWorker(1, "Смирнов Александр" ,"0987", "16:11:11:11", 1000f)
+        repo.addWorker(2, "Курыкин Владимир" ,"0988", "17:11:11:11", 1000f)
+        repo.addWorker(3, "Петросян Оганес" ,"0989", "18:11:11:11", 1000f)
+        repo.addWorker(4, "Лежнина Елена" ,"0997", "19:11:11:11", 1000f)
+        repo.addWorker(5, "Кривошеин Александр" ,"0998", "20:11:11:11", 1000f)
     }
 }
