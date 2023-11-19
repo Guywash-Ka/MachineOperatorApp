@@ -143,7 +143,7 @@ class AppRepository private constructor(
     fun getTaskModelById(id: Int): Flow<TasksModel> {
         return database.tasksDao().getTaskById(id).map { task ->
             return@map combine(
-                getAgronomNameById(task.agronomId),
+                getAgronomNameById(task.agronomId?: 1),
                 getWorkerNameById(task.workerId),
                 getTemplateById(task.templateId)
             ) { agroName, workName, template ->

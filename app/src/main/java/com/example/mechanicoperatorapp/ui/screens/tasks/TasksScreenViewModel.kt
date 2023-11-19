@@ -31,15 +31,17 @@ class TasksScreenViewModel(
 
     val uiState: StateFlow<TasksScreenUIState> = combine(
         selectableUIState,
-        repository.getAllTasksModel(),
-        repository.getTaskModelById(1)
-    ) { selectable, tasks, task ->
+        repository.getAllTasksModels(),
+//        repository.getTaskModelById(1)
+    ) { selectable, tasks ->
 
         Log.e("TasksScreenViewModel", "I'M HERE")
-        Log.e("TasksScreenViewModel", "$task")
+//        Log.e("TasksScreenViewModel", "$task")
+
+        val newTasks = tasks.map { TasksModel(it.id, it.agronomName, it.workerName, it.templateName, it.valueList.map { v -> v.toString() }) }
 
         TasksScreenUIState(
-            tasks = tasks,
+            tasks = newTasks,
             filter = selectable.filter,
         )
 
@@ -48,6 +50,7 @@ class TasksScreenViewModel(
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = TasksScreenUIState()
     )
+//    val uiState = StateFlow<Int>
 
 }
 

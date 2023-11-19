@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 @TypeConverters(TypeConverter::class)
 data class TasksEntity (
     @PrimaryKey(autoGenerate = true) val id: Int,
-    val agronomId: Int,
+    val agronomId: Int?,
     val workerId: Int,
     val templateId: Int,
     val json: List<Int>
@@ -16,7 +16,7 @@ data class TasksEntity (
 
 data class TasksNetwork(
     val id: Int,
-    val agronomId: Int,
+    val agronomId: Int?,
     val workerId: Int,
     val templateId: Int,
     val json: List<Tasks>
@@ -24,7 +24,7 @@ data class TasksNetwork(
 
 data class Tasks(
     val id: Int,
-    val agronomId: Int,
+    val agronomId: Int?,
     val workerId: Int,
     val templateId: Int,
     val json: List<Int>
@@ -32,7 +32,7 @@ data class Tasks(
 
 data class TasksModel(
     val id: Int,
-    val agronomName: String,
+    val agronomName: String?,
     val workerName: String,
     val templateName: String,
     val valueList: List<String>
@@ -40,7 +40,7 @@ data class TasksModel(
 
 data class TasksSQLModel(
     val id: Int,
-    val agronomName: String,
+    val agronomName: String?,
     val workerName: String,
     val templateName: String,
     val valueList: List<Int>
