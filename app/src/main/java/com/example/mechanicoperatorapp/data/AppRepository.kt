@@ -319,12 +319,12 @@ class AppRepository private constructor(
     fun getFieldOptionsById(id: Int) =
         getFieldNameById(id).map { name ->
             when (name) {
-                "Агрегат" -> database.infoClassesDao().getAgregats().map { it.name }
-                "Фермерское Поле" -> database.infoClassesDao().getFarmFields().map { it.name }
-                "Операция" -> database.infoClassesDao().getOperations().map { it.name }
-                "Транспорт" -> database.infoClassesDao().getTransports().map { it.name }
-                "Раствор" -> database.infoClassesDao().getWaters().map { it.name }
-                else -> listOf("")
+                "Агрегат" -> database.infoClassesDao().getAgregats().map { Pair(it.name, it.id) }
+                "Фермерское Поле" -> database.infoClassesDao().getFarmFields().map { Pair(it.name, it.id) }
+                "Операция" -> database.infoClassesDao().getOperations().map { Pair(it.name, it.id) }
+                "Транспорт" -> database.infoClassesDao().getTransports().map { Pair(it.name, it.id) }
+                "Раствор" -> database.infoClassesDao().getWaters().map { Pair(it.name, it.id) }
+                else -> listOf(Pair("", -1))
             }
         }
 
